@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://billsfriend.app/sitemap.xml
+Sitemap: https://bills-freind.vercel.app/sitemap.xml

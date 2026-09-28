@@ -1,6 +1,3 @@
-// The printable A4 document. Two switchable template styles (Swiss Architectural /
-// Corporate Executive), live accent-color theming, UPI payment QR (executive style)
-// and a special earnings/deductions layout for the salary-slip preset.
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";

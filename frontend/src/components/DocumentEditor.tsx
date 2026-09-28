@@ -1,6 +1,3 @@
-// The document workspace: preset-driven form (left) + live A4 preview (right).
-// Local-first only: every save writes to this browser's localStorage. There is no backend
-// document store and nothing here is ever uploaded anywhere.
 
 import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";

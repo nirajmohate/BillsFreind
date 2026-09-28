@@ -1,8 +1,3 @@
-// Sticky glass site header: brand, tools menu, primary nav, theme toggle, CTA.
-//
-// The "All Tools" menu is a small self-contained dropdown (plain React state +
-// a click-outside listener) rather than a third-party menu primitive — it has
-// fewer moving parts and nothing to go wrong across browsers.
 
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";

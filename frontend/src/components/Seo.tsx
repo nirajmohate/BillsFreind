@@ -1,5 +1,3 @@
-// Per-page SEO: sets <title>, meta description, canonical, Open Graph / Twitter tags
-// and injects JSON-LD structured data. Renders nothing.
 
 import { useEffect } from "react";
 
