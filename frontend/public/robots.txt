@@ -1,0 +1,7 @@
+# BillsFriend — robots.txt
+# Replace billsfriend.app with your production domain after deploying.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://billsfriend.app/sitemap.xml

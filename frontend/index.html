@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <!-- <html lang="en" class="dark"> — uncomment for dark-by-default (replace the tag above; `dark` is a Tailwind variant, never `@apply` it) -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>BillsFriend — Free GST Invoice &amp; Bill Generator (No Sign-up)</title>
+    <meta name="description" content="Create GST invoices, receipts, quotations, challans, payslips and 15+ document types free online. Instant PDF download, no sign-up, no watermark — your data stays in your browser." />
+    <meta name="keywords" content="free invoice generator, gst invoice generator, bill maker online, receipt generator, quotation generator, delivery challan, rent receipt, salary slip generator, BillsFriend" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="BillsFriend" />
+    <link rel="canonical" href="https://billsfriend.app/" />
+    <meta name="theme-color" content="#0284C7" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BillsFriend" />
+    <meta property="og:title" content="BillsFriend — Free GST Invoice &amp; Bill Generator" />
+    <meta property="og:description" content="15 free document generators — GST invoices, receipts, challans, payslips. No sign-up, no watermark, instant A4 PDF." />
+    <meta property="og:url" content="https://billsfriend.app/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1554224154-22dec7ec8818?crop=entropy&cs=srgb&fm=jpg&w=1200&h=630&fit=crop" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BillsFriend — Free GST Invoice &amp; Bill Generator" />
+    <meta name="twitter:description" content="15 free document generators. No sign-up, no watermark, instant A4 PDF." />
+
+    <!-- Structured data: WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "BillsFriend — Free Bill & Invoice Generator",
+      "url": "https://billsfriend.app/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Any (Web)",
+      "description": "Free online bill and invoice generator: GST tax invoices, receipts, quotations, challans, payslips and more. No sign-up, no watermark, instant PDF download.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+    }
+    </script>
+
+    <!-- Restore saved theme before first paint (prevents dark-mode flash) -->
+    <script>
+      try {
+        if (localStorage.getItem("bf_theme") === "dark") document.documentElement.classList.add("dark");
+      } catch (e) {}
+    </script>
+
+    <!-- Google Analytics 4 — paste your Measurement ID below (looks like G-XXXXXXXXXX).
+         The snippet only loads when a real ID is present, so the placeholder is inert.
+         During `vite build`, %VITE_GA_MEASUREMENT_ID% is replaced from .env / CI env. -->
+    <script>
+      (function () {
+        var GA_ID = "%VITE_GA_MEASUREMENT_ID%" !== "%VITE_GA" + "_MEASUREMENT_ID%"
+          ? "%VITE_GA_MEASUREMENT_ID%"
+          : "G-XXXXXXXXXX";
+        if (!GA_ID || GA_ID.indexOf("XXXX") !== -1) return;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag("js", new Date());
+        gtag("config", GA_ID);
+      })();
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
