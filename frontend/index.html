@@ -1,43 +1,45 @@
 <!doctype html>
-<html lang="en">
-  <!-- <html lang="en" class="dark"> — uncomment for dark-by-default (replace the tag above; `dark` is a Tailwind variant, never `@apply` it) -->
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- SEO -->
-    <title>BillsFriend — Free GST Invoice &amp; Bill Generator (No Sign-up)</title>
-    <meta name="description" content="Create GST invoices, receipts, quotations, challans, payslips and 15+ document types free online. Instant PDF download, no sign-up, no watermark — your data stays in your browser." />
-    <meta name="keywords" content="free invoice generator, gst invoice generator, bill maker online, receipt generator, quotation generator, delivery challan, rent receipt, salary slip generator, BillsFriend" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0369A1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0B0F17" media="(prefers-color-scheme: dark)" />
     <meta name="author" content="BillsFriend" />
-    <link rel="canonical" href="https://bills-freind.vercel.app/" />
-    <meta name="theme-color" content="#0284C7" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="google-site-verification" content="qXCVCyPKj3kOqUfRgEX4YcN8Tp66XksQBUZYvwlmtIc" />
 
-    <!-- Open Graph / Twitter -->
+    <title>BillsFriend — Free GST Invoice &amp; Bill Generator (No Sign-up)</title>
+
+    <!-- Per-page SEO tags. `npm run build` (scripts/prerender.mjs) regenerates this block for
+         every route so each page ships its own title, description, canonical, Open Graph and
+         JSON-LD in static HTML. Seo.tsx keeps them in sync during client-side navigation. -->
+    <!--seo-head-->
+    <meta name="description" content="Create GST invoices, receipts, quotations, challans, payslips and electrician, plumber &amp; mechanic bills free online. Instant PDF, no sign-up, no watermark." />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <link rel="canonical" href="https://bills-freind.vercel.app/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="BillsFriend" />
-    <meta property="og:title" content="BillsFriend — Free GST Invoice &amp; Bill Generator" />
-    <meta property="og:description" content="15 free document generators — GST invoices, receipts, challans, payslips. No sign-up, no watermark, instant A4 PDF." />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:title" content="BillsFriend — Free GST Invoice &amp; Bill Generator (No Sign-up)" />
+    <meta property="og:description" content="Create GST invoices, receipts, quotations, challans, payslips and electrician, plumber &amp; mechanic bills free online. Instant PDF, no sign-up, no watermark." />
     <meta property="og:url" content="https://bills-freind.vercel.app/" />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1554224154-22dec7ec8818?crop=entropy&cs=srgb&fm=jpg&w=1200&h=630&fit=crop" />
+    <meta property="og:image" content="https://bills-freind.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BillsFriend — free GST invoice and bill generator" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="BillsFriend — Free GST Invoice &amp; Bill Generator" />
-    <meta name="twitter:description" content="15 free document generators. No sign-up, no watermark, instant A4 PDF." />
-    <meta name="google-site-verification" content="qXCVCyPKj3kOqUfRgEX4YcN8Tp66XksQBUZYvwlmtIc" />
-    <!-- Structured data: WebApplication -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "BillsFriend — Free Bill & Invoice Generator",
-      "url": "https://bills-freind.vercel.app/",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any (Web)",
-      "description": "Free online bill and invoice generator: GST tax invoices, receipts, quotations, challans, payslips and more. No sign-up, no watermark, instant PDF download.",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
-    }
-    </script>
+    <meta name="twitter:title" content="BillsFriend — Free GST Invoice &amp; Bill Generator (No Sign-up)" />
+    <meta name="twitter:description" content="Create GST invoices, receipts, quotations, challans, payslips and electrician, plumber &amp; mechanic bills free online. Instant PDF, no sign-up, no watermark." />
+    <meta name="twitter:image" content="https://bills-freind.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="BillsFriend — free GST invoice and bill generator" />
+    <!--/seo-head-->
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Restore saved theme before first paint (prevents dark-mode flash) -->
     <script>
@@ -46,35 +48,33 @@
       } catch (e) {}
     </script>
 
-    <!-- Google Analytics 4 — paste your Measurement ID below (looks like G-XXXXXXXXXX).
-         The snippet only loads when a real ID is present, so the placeholder is inert.
-         During `vite build`, %VITE_GA_MEASUREMENT_ID% is replaced from .env / CI env. -->
+    <!-- Google Analytics 4 — loaded after the page is interactive so it never blocks rendering.
+         Replace the ID below (or leave as-is). Remove this block to disable analytics. -->
     <script>
       (function () {
-        var GA_ID = "G-NSYQG4F1NT" !== "%VITE_GA" + "_MEASUREMENT_ID%"
-          ? "G-NSYQG4F1NT"
-          : "G-XXXXXXXXXX";
-        if (!GA_ID || GA_ID.indexOf("XXXX") !== -1) return;
-        var s = document.createElement("script");
-        s.async = true;
-        s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { window.dataLayer.push(arguments); }
-        window.gtag = gtag;
-        gtag("js", new Date());
-        gtag("config", GA_ID);
+        var GA_ID = "G-NSYQG4F1NT";
+        function load() {
+          var s = document.createElement("script");
+          s.async = true;
+          s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { window.dataLayer.push(arguments); };
+          window.gtag("js", new Date());
+          window.gtag("config", GA_ID, { anonymize_ip: true });
+        }
+        window.addEventListener("load", function () {
+          if ("requestIdleCallback" in window) requestIdleCallback(load, { timeout: 4000 });
+          else setTimeout(load, 2000);
+        });
       })();
     </script>
-
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   </head>
   <body>
     <div id="root"></div>
+    <!--seo-noscript-->
+    <noscript>BillsFriend needs JavaScript to build bills in your browser. Please enable JavaScript.</noscript>
+    <!--/seo-noscript-->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

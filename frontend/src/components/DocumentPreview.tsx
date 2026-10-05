@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";
 import { amountToWords, computeTotals, currencySymbol, formatDate, formatMoney } from "@/lib/format";
 import type { DocData, DocItem, ToolPreset, Totals } from "@/lib/types";
+import { ClassicDoc } from "@/components/ClassicDoc";
 
 const A4_WIDTH_PX = 794; // 210mm at 96dpi
 
@@ -104,7 +105,7 @@ function ItemsTable({
           const cells = [
             it.desc || "—",
             ...(preset.showHsn ? [it.hsn] : []),
-            preset.amountMode === "items" ? String(it.qty) : "",
+            preset.amountMode === "items" ? `${it.qty}${it.unit ? ` ${it.unit}` : ""}` : "",
             formatMoney(it.rate, data.currency),
             ...(preset.taxMode === "gst" && data.taxMode !== "none" ? [`${it.gstRate}%`] : []),
           ].filter((_, i) => i < cols.length - 1);
@@ -254,10 +255,11 @@ function SwissDoc({ data, preset, totals }: { data: DocData; preset: ToolPreset;
 
       <div className="mt-5 grid grid-cols-2 items-end gap-8">
         <div className="space-y-3">
-          {(data.notes || data.terms) && (
+          {(data.notes || data.terms || data.bank) && (
             <div>
               {data.notes && <p className="text-[10px] leading-snug text-slate-600"><span className="font-semibold">Notes: </span>{data.notes}</p>}
               {data.terms && <p className="mt-1 text-[10px] leading-snug text-slate-600"><span className="font-semibold">Terms: </span>{data.terms}</p>}
+              {data.bank && <p className="mt-1 whitespace-pre-line text-[10px] leading-snug text-slate-600"><span className="font-semibold">Bank: </span>{data.bank}</p>}
             </div>
           )}
         </div>
@@ -382,7 +384,7 @@ function ExecutiveDoc({ data, preset, totals, qrSrc }: { data: DocData; preset: 
 
 export function DocumentPreview({ data, preset }: { data: DocData; preset: ToolPreset }) {
   const totals = useMemo(() => computeTotals(data, preset), [data, preset]);
-  const qrSrc = usePaymentQR(data, data.templateStyle === "executive", totals.grand);
+  const qrSrc = usePaymentQR(data, data.templateStyle !== "swiss", totals.grand);
   const outerRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
@@ -415,8 +417,10 @@ export function DocumentPreview({ data, preset }: { data: DocData; preset: ToolP
         >
           {data.templateStyle === "executive" ? (
             <ExecutiveDoc data={data} preset={preset} totals={totals} qrSrc={qrSrc} />
-          ) : (
+          ) : data.templateStyle === "swiss" ? (
             <SwissDoc data={data} preset={preset} totals={totals} />
+          ) : (
+            <ClassicDoc data={data} preset={preset} totals={totals} qrSrc={qrSrc} />
           )}
         </div>
       </div>

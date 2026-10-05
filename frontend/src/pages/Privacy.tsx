@@ -1,4 +1,5 @@
 import { Seo } from "@/components/Seo";
+import { PAGE_META } from "@/lib/seo";
 
 const ROWS: [string, string][] = [
   ["Business profile (name, GSTIN, logo…)", "Stored only in your browser's local storage. Never uploaded anywhere."],
@@ -13,9 +14,9 @@ export default function Privacy() {
   return (
     <main className="mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-6">
       <Seo
-        title="Privacy Policy — Zero Server-side Storage | BillsFriend"
-        description="BillsFriend stores your bills and business details only in your own browser — zero server-side document storage and no accounts, ever."
-        path="/privacy"
+        title={PAGE_META.privacy.title}
+        description={PAGE_META.privacy.description}
+        path={PAGE_META.privacy.path}
       />
       <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Legal</p>
       <h1 className="mt-2 font-heading text-4xl font-bold tracking-tight">Privacy Policy</h1>

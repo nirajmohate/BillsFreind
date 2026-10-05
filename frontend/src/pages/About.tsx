@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Seo } from "@/components/Seo";
+import { PAGE_META } from "@/lib/seo";
 import { buttonVariants } from "@/components/ui/button";
 import { TOOL_PRESETS } from "@/lib/tools";
 
@@ -7,9 +8,9 @@ export default function About() {
   return (
     <main className="mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-6">
       <Seo
-        title="About BillsFriend — Free, Private, Local-first Bill Generator"
-        description="BillsFriend is a 100% free bill and invoice generator that runs entirely in your browser. No accounts, no data harvesting, no watermarks — by design."
-        path="/about"
+        title={PAGE_META.about.title}
+        description={PAGE_META.about.description}
+        path={PAGE_META.about.path}
       />
       <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">About</p>
       <h1 className="mt-2 font-heading text-4xl font-bold tracking-tight">Billing tools should be free, private and fast.</h1>

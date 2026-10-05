@@ -2,7 +2,8 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { DocumentEditor } from "@/components/DocumentEditor";
-import { getPreset } from "@/lib/tools";
+import { getPreset, TOOL_PRESETS } from "@/lib/tools";
+import { relatedPresets, toolFaqs, toolJsonLd, toolSteps, withArticle } from "@/lib/seo";
 import NotFound from "@/pages/NotFound";
 
 export default function EditorPage() {
@@ -13,35 +14,13 @@ export default function EditorPage() {
 
   if (!preset) return <NotFound />;
 
-  const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      name: `BillsFriend — ${preset.name}`,
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Any (Web)",
-      description: preset.seoDescription,
-      offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: window.location.origin },
-        { "@type": "ListItem", position: 2, name: preset.name },
-      ],
-    },
-  ];
-
-  const steps = [
-    `Fill in your ${preset.fromLabel.toLowerCase()} — it is remembered on this device for every future document.`,
-    `Add line items with ${preset.qtyLabel.toLowerCase()} and ${preset.rateLabel.toLowerCase()}${preset.taxMode === "gst" ? ", pick the GST rate" : ""} — totals, tax split and amount in words are calculated live.`,
-    `Press “Download PDF” and choose “Save as PDF” in the print dialog, or press “Save” to keep the draft in My Documents.`,
-  ];
+  const steps = toolSteps(preset);
+  const faqs = toolFaqs(preset);
+  const related = relatedPresets(preset, TOOL_PRESETS, 6);
 
   return (
     <main className="pb-24">
-      <Seo title={preset.seoTitle} description={preset.seoDescription} path={`/${preset.id}`} jsonLd={jsonLd} />
+      <Seo title={preset.seoTitle} description={preset.seoDescription} path={`/${preset.id}`} jsonLd={toolJsonLd(preset)} />
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
         <nav aria-label="Breadcrumb" className="flex items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Home</Link>
@@ -70,7 +49,7 @@ export default function EditorPage() {
 
         <section className="no-print mt-16 grid gap-10 md:grid-cols-2">
           <div>
-            <h2 className="font-heading text-xl font-bold tracking-tight">How to create a {preset.name.toLowerCase()} online</h2>
+            <h2 className="font-heading text-xl font-bold tracking-tight">How to create {withArticle(preset.name.toLowerCase())} online</h2>
             <ol className="mt-4 space-y-3">
               {steps.map((s, i) => (
                 <li key={i} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
@@ -85,16 +64,7 @@ export default function EditorPage() {
           <div>
             <h2 className="font-heading text-xl font-bold tracking-tight">{preset.name} FAQ</h2>
             <div className="mt-4 space-y-3">
-              {[
-                {
-                  q: `Is this ${preset.name.toLowerCase()} generator free?`,
-                  a: "Yes — completely free with unlimited documents, no sign-up and no watermark on the output.",
-                },
-                {
-                  q: `Can I download the ${preset.docTitle.toLowerCase()} as PDF?`,
-                  a: "Yes. Press “Download PDF” and pick “Save as PDF” in your browser's print dialog — the output is a pixel-perfect A4 document.",
-                },
-              ].map((f, i) => (
+              {faqs.map((f, i) => (
                 <details key={i} className="group rounded-xl border border-border/80 bg-card p-4" data-testid={`editor-faq-item-${i}`}>
                   <summary className="cursor-pointer list-none text-sm font-semibold text-foreground marker:hidden">
                     <span className="mr-2 inline-block transition-transform group-open:rotate-90">›</span>
@@ -106,6 +76,27 @@ export default function EditorPage() {
             </div>
           </div>
         </section>
+
+        <nav aria-label="Related generators" className="no-print mt-16 border-t border-border/70 pt-10">
+          <h2 className="font-heading text-xl font-bold tracking-tight">More free bill &amp; invoice generators</h2>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((p) => (
+              <li key={p.id}>
+                <Link
+                  to={`/${p.id}`}
+                  className="flex h-full flex-col rounded-xl border border-border/80 bg-card p-4 transition-colors hover:border-foreground/25 hover:bg-accent/40"
+                >
+                  <span className="text-sm font-semibold text-foreground">{p.name}</span>
+                  <span className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">{p.description}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-sm text-muted-foreground">
+            Need to accept payments too? Try the free <Link to="/upi-qr" className="font-medium text-primary underline underline-offset-2">UPI QR code generator</Link>, or open{" "}
+            <Link to="/dashboard" className="font-medium text-primary underline underline-offset-2">My Documents</Link> to reuse saved bills.
+          </p>
+        </nav>
       </div>
     </main>
   );

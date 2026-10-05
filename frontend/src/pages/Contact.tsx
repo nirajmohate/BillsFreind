@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Copy, Mail } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import { PAGE_META } from "@/lib/seo";
 import { Button } from "@/components/ui/button";
 
 const CONTACT_EMAIL = "mohateniraj@gmail.com";
@@ -31,9 +32,9 @@ export default function Contact() {
   return (
     <main className="mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-6">
       <Seo
-        title="Contact BillsFriend — Support & Template Requests"
-        description="Missing a document type, found a bug, or have a suggestion? Email the BillsFriend team directly — free tools improve from your feedback."
-        path="/contact"
+        title={PAGE_META.contact.title}
+        description={PAGE_META.contact.description}
+        path={PAGE_META.contact.path}
       />
       <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Contact</p>
       <h1 className="mt-2 font-heading text-4xl font-bold tracking-tight">Tell us what to build next.</h1>

@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Moon, Sun, FileText, Menu, ChevronDown } from "lucide-react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Moon, Sun, FileText, Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TOOL_PRESETS } from "@/lib/tools";
 import { applyTheme, getTheme } from "@/lib/storage";
@@ -41,7 +41,8 @@ function ToolsMenu() {
   }, [open]);
 
   const businessTools = TOOL_PRESETS.filter((p) => ["business", "procurement", "logistics", "financial"].includes(p.category));
-  const personalTools = TOOL_PRESETS.filter((p) => !["business", "procurement", "logistics", "financial"].includes(p.category));
+  const serviceTools = TOOL_PRESETS.filter((p) => p.category === "services");
+  const personalTools = TOOL_PRESETS.filter((p) => !["business", "procurement", "logistics", "financial", "services"].includes(p.category));
 
   const go = (id: string) => {
     setOpen(false);
@@ -82,6 +83,19 @@ function ToolsMenu() {
             </button>
           ))}
           <p className="mt-2 px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Electrician, Plumber &amp; Mechanic
+          </p>
+          {serviceTools.map((p) => (
+            <button
+              key={p.id}
+              role="menuitem"
+              onClick={() => go(p.id)}
+              className="block w-full rounded-lg px-2 py-1.5 text-left text-sm hover:bg-accent hover:text-accent-foreground"
+            >
+              {p.name}
+            </button>
+          ))}
+          <p className="mt-2 px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
             Personal, Tax &amp; Travel
           </p>
           {personalTools.map((p) => (
@@ -102,7 +116,13 @@ function ToolsMenu() {
 
 export function SiteHeader() {
   const [theme, setTheme] = useState<"light" | "dark">(() => getTheme());
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     applyTheme(theme);
@@ -157,14 +177,42 @@ export function SiteHeader() {
             variant="ghost"
             size="icon"
             className="md:hidden"
-            aria-label="Open menu"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
             data-testid="nav-mobile-menu"
-            onClick={() => navigate("/#tools")}
+            onClick={() => setMobileOpen((v) => !v)}
           >
-            <Menu className="size-4" />
+            {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
           </Button>
         </div>
       </div>
+
+      {mobileOpen && (
+        <nav id="mobile-nav" aria-label="Mobile" className="max-h-[75vh] overflow-y-auto border-t border-border/70 bg-background px-4 py-3 md:hidden">
+          <div className="grid grid-cols-1 gap-1">
+            {[
+              { to: "/#tools", label: "All tools" },
+              { to: "/dashboard", label: "My Documents" },
+              { to: "/upi-qr", label: "UPI QR" },
+              { to: "/about", label: "About" },
+              { to: "/contact", label: "Contact" },
+            ].map((l) => (
+              <Link key={l.to} to={l.to} className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-accent">
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          <p className="mt-3 px-3 font-mono text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Popular generators</p>
+          <div className="mt-1 grid grid-cols-2 gap-1">
+            {TOOL_PRESETS.slice(0, 8).concat(TOOL_PRESETS.filter((p) => p.category === "services")).map((p) => (
+              <Link key={p.id} to={`/${p.id}`} className="rounded-lg px-3 py-2 text-[13px] text-muted-foreground hover:bg-accent hover:text-accent-foreground">
+                {p.name}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

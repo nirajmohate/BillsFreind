@@ -1,7 +1,8 @@
 # BillsFriend — robots.txt
-# Replace billsfriend.app with your production domain after deploying.
-
 User-agent: *
 Allow: /
+Disallow: /dashboard
+Disallow: /editor/
+Disallow: /*?doc=
 
 Sitemap: https://bills-freind.vercel.app/sitemap.xml

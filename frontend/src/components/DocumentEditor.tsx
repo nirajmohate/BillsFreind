@@ -1,8 +1,9 @@
 
-import { useMemo, useRef, useState } from "react";
+import { Children, cloneElement, isValidElement, useId, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
-  Copy, Download, FileJson, FilePlus2, Printer, Save, Sparkles,
+  Copy, FileJson, FilePlus2, Loader2, Printer, Save, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,15 +17,22 @@ import {
   docTitleFor, getDoc, loadProfile, nextDocNumber, peekDocNumber, putDoc, saveProfile,
 } from "@/lib/storage";
 import { ACCENTS, emptyDoc, newItem, sampleDoc, TOOL_PRESETS } from "@/lib/tools";
+import { validateDoc } from "@/lib/validate";
 import type { DocData, LocalDoc, Party, ToolPreset } from "@/lib/types";
 
 const TAX_MODE_LABELS: Record<string, string> = { intra: "Within state (CGST + SGST)", inter: "Inter-state (IGST)", none: "No GST" };
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {
+  const id = useId();
+  const single = Children.count(children) === 1 && isValidElement<Record<string, unknown>>(children) ? children : null;
+  const attachable = single && (typeof single.type !== "string" || single.type === "input" || single.type === "textarea");
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs text-muted-foreground">{label}</Label>
-      {children}
+      <Label htmlFor={attachable ? id : undefined} className="text-xs text-muted-foreground">{label}</Label>
+      {attachable
+        ? cloneElement(single, { id, "aria-invalid": error ? true : undefined, "aria-describedby": error ? `${id}-err` : undefined })
+        : children}
+      {error && <p id={`${id}-err`} role="alert" className="text-xs font-medium text-destructive">{error}</p>}
     </div>
   );
 }
@@ -40,7 +48,9 @@ function Section({ title, children, testid }: { title: string; children: React.R
   );
 }
 
-async function toLogoDataUrl(file: File): Promise<string> {
+const MAX_UPLOAD_BYTES = 3 * 1024 * 1024;
+
+async function toLogoDataUrl(file: File, max = 360): Promise<string> {
   const dataUrl = await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
@@ -50,7 +60,6 @@ async function toLogoDataUrl(file: File): Promise<string> {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
-      const max = 360;
       const ratio = Math.min(1, max / Math.max(img.width, img.height));
       const canvas = document.createElement("canvas");
       canvas.width = Math.round(img.width * ratio);
@@ -72,8 +81,16 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
   const [savedId, setSavedId] = useState<string | undefined>(existing?.id);
   const [dirty, setDirty] = useState(false);
   const logoInputRef = useRef<HTMLInputElement>(null);
+  const signInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const [showErrors, setShowErrors] = useState(false);
+  const [printing, setPrinting] = useState(false);
+  const [uploading, setUploading] = useState<"" | "logo" | "signature">("");
 
   const totals = useMemo(() => computeTotals(data, preset), [data, preset]);
+
+  const errors = useMemo(() => validateDoc(data, preset), [data, preset]);
+  const err = (key: string) => (showErrors ? errors[key] : undefined);
 
   const patch = (p: Partial<DocData>) => {
     setData((d) => ({ ...d, ...p }));
@@ -108,7 +125,12 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
       updatedAt: new Date().toISOString(),
       payload: data,
     };
-    putDoc(doc);
+    if (!putDoc(doc)) {
+      toast.error("Couldn't save in this browser", {
+        description: "Storage is full or blocked (private mode?). Use the JSON button to keep a copy.",
+      });
+      return;
+    }
     setSavedId(doc.id);
     setDirty(false);
     toast.success(`Saved “${doc.title}” to this browser`, {
@@ -128,7 +150,10 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
       updatedAt: new Date().toISOString(),
       payload: { ...data, number: peekDocNumber(preset.numberPrefix) },
     };
-    putDoc(doc);
+    if (!putDoc(doc)) {
+      toast.error("Couldn't duplicate — browser storage is full or blocked.");
+      return;
+    }
     toast.success("Duplicated to My Documents");
   };
 
@@ -146,8 +171,23 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
   };
 
   const handlePrint = () => {
+    const found = validateDoc(data, preset);
+    const keys = Object.keys(found);
+    if (keys.length) {
+      setShowErrors(true);
+      toast.error(`Please fix ${keys.length} field${keys.length > 1 ? "s" : ""} before downloading`, { description: found[keys[0]] });
+      setTimeout(() => document.querySelector<HTMLElement>('[aria-invalid="true"]')?.scrollIntoView({ block: "center", behavior: "smooth" }), 60);
+      return;
+    }
+    setPrinting(true);
     toast("Opening print dialog…", { description: "Choose “Save as PDF” as the destination to download." });
-    setTimeout(() => window.print(), 350);
+    setTimeout(() => {
+      try {
+        window.print();
+      } finally {
+        setPrinting(false);
+      }
+    }, 350);
   };
 
   const handleDownloadJSON = () => {
@@ -162,10 +202,44 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
     URL.revokeObjectURL(url);
   };
 
+  const checkImage = (file: File): boolean => {
+    if (!file.type.startsWith("image/")) {
+      toast.error("That file isn't an image", { description: "Please choose a PNG, JPG or WebP file." });
+      return false;
+    }
+    if (file.size > MAX_UPLOAD_BYTES) {
+      toast.error("Image is too large", { description: "Please choose an image under 3 MB." });
+      return false;
+    }
+    return true;
+  };
+
   const handleLogo = async (file: File | undefined) => {
-    if (!file) return;
-    patchBusiness("logo", await toLogoDataUrl(file));
-    toast.success("Logo added to your documents");
+    if (!file || !checkImage(file)) return;
+    setUploading("logo");
+    try {
+      patchBusiness("logo", await toLogoDataUrl(file));
+      toast.success("Logo added to your documents");
+    } catch {
+      toast.error("Couldn't read that image — try another file.");
+    } finally {
+      setUploading("");
+      if (logoInputRef.current) logoInputRef.current.value = "";
+    }
+  };
+
+  const handleSignature = async (file: File | undefined) => {
+    if (!file || !checkImage(file)) return;
+    setUploading("signature");
+    try {
+      patch({ signature: await toLogoDataUrl(file, 420) });
+      toast.success("Signature added");
+    } catch {
+      toast.error("Couldn't read that image — try another file.");
+    } finally {
+      setUploading("");
+      if (signInputRef.current) signInputRef.current.value = "";
+    }
   };
 
   const showGst = preset.taxMode === "gst";
@@ -174,7 +248,7 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
     <div>
       {/* Action bar */}
       <div className="no-print mb-5 flex flex-wrap items-center gap-2 rounded-2xl border border-border/80 bg-card p-3 shadow-sm">
-        <Select value={preset.id} onValueChange={(v: string) => { if (v !== preset.id) window.location.assign(`/${v}`); }}>
+        <Select value={preset.id} onValueChange={(v: string) => { if (v !== preset.id) navigate(`/${v}`); }}>
           <SelectTrigger className="h-9 w-[210px]" data-testid="editor-preset-selector" aria-label="Switch document type">
             <SelectValue>{(v: string) => TOOL_PRESETS.find((p) => p.id === v)?.name ?? v}</SelectValue>
           </SelectTrigger>
@@ -200,8 +274,8 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
           <Button variant="outline" size="sm" data-testid="editor-download-json-btn" onClick={handleDownloadJSON}>
             <FileJson className="size-4" /> JSON
           </Button>
-          <Button size="sm" data-testid="editor-print-pdf-btn" onClick={handlePrint}>
-            <Printer className="size-4" /> Download PDF
+          <Button size="sm" data-testid="editor-print-pdf-btn" onClick={handlePrint} disabled={printing} aria-busy={printing}>
+            {printing ? <Loader2 className="size-4 animate-spin" /> : <Printer className="size-4" />} {printing ? "Preparing…" : "Download PDF"}
           </Button>
         </div>
       </div>
@@ -211,14 +285,14 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
         <div className="no-print space-y-5 lg:col-span-5 xl:col-span-5">
           <Section title="Document" testid="editor-section-document">
             <div className="grid grid-cols-2 gap-3">
-              <Field label={preset.numberLabel}>
+              <Field label={preset.numberLabel} error={err("number")}>
                 <Input value={data.number} onChange={(e) => patch({ number: e.target.value })} data-testid="editor-doc-number-input" />
               </Field>
-              <Field label={preset.id === "quotation-estimate" ? "Date" : "Issue Date"}>
+              <Field label={preset.id === "quotation-estimate" ? "Date" : "Issue Date"} error={err("issueDate")}>
                 <Input type="date" value={data.issueDate} onChange={(e) => patch({ issueDate: e.target.value })} data-testid="editor-issue-date-input" />
               </Field>
               {preset.id !== "rent-receipt" && (
-                <Field label={preset.id === "quotation-estimate" ? "Valid Until" : "Due Date (optional)"}>
+                <Field label={preset.id === "quotation-estimate" ? "Valid Until" : "Due Date (optional)"} error={err("dueDate")}>
                   <Input type="date" value={data.dueDate} onChange={(e) => patch({ dueDate: e.target.value })} data-testid="editor-due-date-input" />
                 </Field>
               )}
@@ -259,9 +333,9 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
               </Field>
             )}
             {preset.amountMode === "single" && (
-              <Field label={preset.amountLabel}>
+              <Field label={preset.amountLabel} error={err("amount")}>
                 <Input
-                  type="number" min={0} value={data.singleAmount || ""}
+                  type="number" min={0} inputMode="decimal" value={data.singleAmount || ""}
                   onChange={(e) => patch({ singleAmount: Number(e.target.value) || 0 })}
                   data-testid="editor-single-amount-input"
                 />
@@ -270,17 +344,17 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
           </Section>
 
           <Section title={preset.fromLabel} testid="editor-section-business">
-            <Field label="Business / Your Name">
+            <Field label="Business / Your Name" error={err("businessName")}>
               <Input value={data.business.name} onChange={(e) => patchBusiness("name", e.target.value)} placeholder="Sharma Traders" data-testid="editor-business-name-input" />
             </Field>
             <Field label="Address">
               <Textarea rows={2} value={data.business.address} onChange={(e) => patchBusiness("address", e.target.value)} data-testid="editor-business-address-input" />
             </Field>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Phone"><Input value={data.business.phone} onChange={(e) => patchBusiness("phone", e.target.value)} data-testid="editor-business-phone-input" /></Field>
-              <Field label="Email"><Input type="email" value={data.business.email} onChange={(e) => patchBusiness("email", e.target.value)} data-testid="editor-business-email-input" /></Field>
-              <Field label="GSTIN"><Input value={data.business.gstin} onChange={(e) => patchBusiness("gstin", e.target.value.toUpperCase())} placeholder="33ABCDE1234F1Z5" data-testid="editor-business-gstin-input" /></Field>
-              <Field label="PAN"><Input value={data.business.pan} onChange={(e) => patchBusiness("pan", e.target.value.toUpperCase())} data-testid="editor-business-pan-input" /></Field>
+              <Field label="Phone" error={err("businessPhone")}><Input type="tel" inputMode="tel" value={data.business.phone} onChange={(e) => patchBusiness("phone", e.target.value)} data-testid="editor-business-phone-input" /></Field>
+              <Field label="Email" error={err("businessEmail")}><Input type="email" value={data.business.email} onChange={(e) => patchBusiness("email", e.target.value)} data-testid="editor-business-email-input" /></Field>
+              <Field label="GSTIN" error={err("businessGstin")}><Input maxLength={15} value={data.business.gstin} onChange={(e) => patchBusiness("gstin", e.target.value.toUpperCase())} placeholder="33ABCDE1234F1Z5" data-testid="editor-business-gstin-input" /></Field>
+              <Field label="PAN" error={err("businessPan")}><Input maxLength={10} value={data.business.pan} onChange={(e) => patchBusiness("pan", e.target.value.toUpperCase())} data-testid="editor-business-pan-input" /></Field>
             </div>
             <Field label="Logo">
               <input
@@ -288,8 +362,8 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
                 onChange={(e) => void handleLogo(e.target.files?.[0])} data-testid="editor-logo-input"
               />
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => logoInputRef.current?.click()} data-testid="editor-logo-upload-btn">
-                  Upload logo
+                <Button variant="outline" size="sm" disabled={uploading === "logo"} onClick={() => logoInputRef.current?.click()} data-testid="editor-logo-upload-btn">
+                  {uploading === "logo" && <Loader2 className="size-4 animate-spin" />} {uploading === "logo" ? "Uploading…" : "Upload logo"}
                 </Button>
                 {data.business.logo && (
                   <Button variant="ghost" size="sm" onClick={() => patchBusiness("logo", "")} data-testid="editor-logo-remove-btn">Remove</Button>
@@ -297,55 +371,107 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
                 {data.business.logo && <img src={data.business.logo} alt="Logo preview" className="size-8 rounded border border-border object-contain" />}
               </div>
             </Field>
-            <Field label="UPI ID (for payment QR on Executive template)">
+            <Field label="UPI ID (prints a pay-by-QR on Classic & Executive styles)" error={err("upiId")}>
               <Input value={data.business.upiId} onChange={(e) => patchBusiness("upiId", e.target.value)} placeholder="business@okicici" data-testid="editor-business-upi-input" />
             </Field>
           </Section>
 
           <Section title={preset.toLabel} testid="editor-section-client">
-            <Field label="Name">
+            <Field label="Name" error={err("clientName")}>
               <Input value={data.client.name} onChange={(e) => patchClient("name", e.target.value)} data-testid="editor-client-name-input" />
             </Field>
             <Field label="Address">
               <Textarea rows={2} value={data.client.address} onChange={(e) => patchClient("address", e.target.value)} data-testid="editor-client-address-input" />
             </Field>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Phone"><Input value={data.client.phone} onChange={(e) => patchClient("phone", e.target.value)} data-testid="editor-client-phone-input" /></Field>
-              <Field label="Email"><Input type="email" value={data.client.email} onChange={(e) => patchClient("email", e.target.value)} data-testid="editor-client-email-input" /></Field>
-              {showGst && <Field label="Client GSTIN"><Input value={data.client.gstin} onChange={(e) => patchClient("gstin", e.target.value.toUpperCase())} data-testid="editor-client-gstin-input" /></Field>}
+              <Field label="Phone" error={err("clientPhone")}><Input type="tel" inputMode="tel" value={data.client.phone} onChange={(e) => patchClient("phone", e.target.value)} data-testid="editor-client-phone-input" /></Field>
+              <Field label="Email" error={err("clientEmail")}><Input type="email" value={data.client.email} onChange={(e) => patchClient("email", e.target.value)} data-testid="editor-client-email-input" /></Field>
+              {showGst && <Field label="Client GSTIN" error={err("clientGstin")}><Input maxLength={15} value={data.client.gstin} onChange={(e) => patchClient("gstin", e.target.value.toUpperCase())} data-testid="editor-client-gstin-input" /></Field>}
             </div>
           </Section>
 
-          <Section title={`${preset.itemLabel}s`} testid="editor-section-items">
+          <Section title={preset.layout === "payslip" ? "Earnings & Deductions" : `${preset.itemLabel}s`} testid="editor-section-items">
             <div className="space-y-2">
-              {data.items.map((it, idx) => (
+              {showErrors && errors.items && <p role="alert" className="text-xs font-medium text-destructive">{errors.items}</p>}
+              {data.items.map((it, idx) => {
+                const amountOnly = preset.layout === "payslip";
+                const payKind = it.kind ?? (it.rate < 0 ? "deduction" : "earning");
+                return (
                 <div key={it.id} className="grid grid-cols-[1fr_auto] gap-2 rounded-lg border border-border/70 p-2" data-testid={`editor-item-row-${idx}`}>
                   <div className="space-y-2">
+                    {preset.itemKinds && (
+                      <div className="flex gap-1.5" role="group" aria-label="Item type">
+                        {preset.itemKinds.map((k) => (
+                          <button
+                            key={k.id} type="button"
+                            aria-pressed={(it.kind ?? preset.itemKinds![0].id) === k.id}
+                            onClick={() => patchItem(it.id, { kind: k.id })}
+                            className={`rounded-md border px-2 py-0.5 text-[11px] font-medium transition-colors ${(it.kind ?? preset.itemKinds![0].id) === k.id ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground hover:bg-accent"}`}
+                          >
+                            {k.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {amountOnly && (
+                      <div className="flex gap-1.5" role="group" aria-label="Earning or deduction">
+                        {(["earning", "deduction"] as const).map((k) => (
+                          <button
+                            key={k} type="button" aria-pressed={payKind === k}
+                            onClick={() => patchItem(it.id, { kind: k, rate: k === "deduction" ? -Math.abs(it.rate) : Math.abs(it.rate), qty: 1 })}
+                            className={`rounded-md border px-2 py-0.5 text-[11px] font-medium capitalize transition-colors ${payKind === k ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground hover:bg-accent"}`}
+                          >
+                            {k}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                     <Input
                       placeholder={preset.itemLabel}
+                      aria-label={`${preset.itemLabel} ${idx + 1}`}
+                      aria-invalid={err(`item-${idx}-desc`) ? true : undefined}
                       value={it.desc}
                       onChange={(e) => patchItem(it.id, { desc: e.target.value })}
                       data-testid={`editor-item-desc-${idx}`}
                     />
-                    <div className="grid grid-cols-4 gap-1.5">
-                      {preset.showHsn && (
-                        <Input placeholder="HSN/SAC" value={it.hsn} onChange={(e) => patchItem(it.id, { hsn: e.target.value })} className="col-span-2" data-testid={`editor-item-hsn-${idx}`} />
-                      )}
+                    {err(`item-${idx}-desc`) && <p role="alert" className="text-xs font-medium text-destructive">{err(`item-${idx}-desc`)}</p>}
+                    {preset.showHsn && (
+                      <Input placeholder={preset.hsnLabel ?? "HSN/SAC"} aria-label={preset.hsnLabel ?? "HSN/SAC code"} value={it.hsn} onChange={(e) => patchItem(it.id, { hsn: e.target.value })} data-testid={`editor-item-hsn-${idx}`} />
+                    )}
+                    {amountOnly ? (
                       <Input
-                        type="number" min={0} value={it.qty || ""} placeholder={preset.qtyLabel}
-                        onChange={(e) => patchItem(it.id, { qty: Number(e.target.value) || 0 })}
-                        data-testid={`editor-item-qty-${idx}`}
-                      />
-                      <Input
-                        type="number" min={0} value={it.rate || ""} placeholder={preset.rateLabel}
-                        onChange={(e) => patchItem(it.id, { rate: Number(e.target.value) || 0 })}
+                        type="number" min={0} inputMode="decimal" value={Math.abs(it.rate) || ""} placeholder="Amount"
+                        aria-label="Amount"
+                        onChange={(e) => { const v = Math.abs(Number(e.target.value) || 0); patchItem(it.id, { qty: 1, rate: payKind === "deduction" ? -v : v }); }}
                         data-testid={`editor-item-rate-${idx}`}
                       />
-                    </div>
+                    ) : (
+                      <div className="grid grid-cols-3 gap-1.5">
+                        <Input
+                          type="number" min={0} inputMode="decimal" value={it.qty || ""} placeholder={preset.qtyLabel}
+                          aria-label={preset.qtyLabel}
+                          aria-invalid={err(`item-${idx}-qty`) ? true : undefined}
+                          onChange={(e) => patchItem(it.id, { qty: Number(e.target.value) || 0 })}
+                          data-testid={`editor-item-qty-${idx}`}
+                        />
+                        <Input
+                          value={it.unit} placeholder="Unit" aria-label="Unit" maxLength={8}
+                          onChange={(e) => patchItem(it.id, { unit: e.target.value.toUpperCase() })}
+                          data-testid={`editor-item-unit-${idx}`}
+                        />
+                        <Input
+                          type="number" min={0} inputMode="decimal" value={it.rate || ""} placeholder={preset.rateLabel}
+                          aria-label={preset.rateLabel}
+                          onChange={(e) => patchItem(it.id, { rate: Number(e.target.value) || 0 })}
+                          data-testid={`editor-item-rate-${idx}`}
+                        />
+                      </div>
+                    )}
+                    {err(`item-${idx}-qty`) && <p role="alert" className="text-xs font-medium text-destructive">{err(`item-${idx}-qty`)}</p>}
                     <div className="flex items-center gap-2">
-                      {showGst && (
+                      {showGst && data.taxMode !== "none" && !amountOnly && (
                         <Select value={String(it.gstRate)} onValueChange={(v: string) => patchItem(it.id, { gstRate: Number(v) })}>
-                          <SelectTrigger size="sm" className="w-[130px]" data-testid={`editor-item-gst-${idx}`}>
+                          <SelectTrigger size="sm" className="w-[130px]" aria-label="GST rate" data-testid={`editor-item-gst-${idx}`}>
                             <SelectValue>{(v: string) => `GST ${v}%`}</SelectValue>
                           </SelectTrigger>
                           <SelectContent>
@@ -359,17 +485,35 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
                     </div>
                   </div>
                   <Button
-                    variant="ghost" size="icon-xs" aria-label="Remove item"
+                    variant="ghost" size="icon-xs" aria-label={`Remove item ${idx + 1}`}
                     onClick={() => { setData((d) => ({ ...d, items: d.items.filter((x) => x.id !== it.id) })); setDirty(true); }}
                     data-testid={`editor-item-remove-row-btn-${idx}`}
                   >
                     ✕
                   </Button>
                 </div>
-              ))}
-              <Button variant="outline" size="sm" className="w-full" onClick={() => { setData((d) => ({ ...d, items: [...d.items, newItem(preset)] })); setDirty(true); }} data-testid="editor-item-add-row-btn">
-                + Add line item
-              </Button>
+                );
+              })}
+              <div className="flex flex-wrap gap-2">
+                {(preset.itemKinds
+                  ? preset.itemKinds.map((k) => ({ label: `+ Add ${k.label.split(" / ")[0].toLowerCase()}`, kind: k.id }))
+                  : preset.layout === "payslip"
+                    ? [{ label: "+ Add earning", kind: "earning" }, { label: "+ Add deduction", kind: "deduction" }]
+                    : [{ label: "+ Add line item", kind: undefined as string | undefined }]
+                ).map((b, bi) => (
+                  <Button
+                    key={b.label} variant="outline" size="sm" className="min-w-[140px] flex-1"
+                    data-testid={bi === 0 ? "editor-item-add-row-btn" : `editor-item-add-row-btn-${bi}`}
+                    onClick={() => {
+                      const row = preset.layout === "payslip" ? { ...newItem(preset), kind: b.kind } : newItem(preset, b.kind);
+                      setData((d) => ({ ...d, items: [...d.items, row] }));
+                      setDirty(true);
+                    }}
+                  >
+                    {b.label}
+                  </Button>
+                ))}
+              </div>
             </div>
           </Section>
 
@@ -394,14 +538,26 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
           <Section title="Notes, Terms & Branding" testid="editor-section-branding">
             <Field label="Notes"><Textarea rows={2} value={data.notes} onChange={(e) => patch({ notes: e.target.value })} data-testid="editor-notes-input" /></Field>
             <Field label="Terms & Conditions"><Textarea rows={2} value={data.terms} onChange={(e) => patch({ terms: e.target.value })} data-testid="editor-terms-input" /></Field>
+            <Field label="Bank / payment details (optional)"><Textarea rows={2} value={data.bank ?? ""} placeholder={"Bank name, A/c no., IFSC"} onChange={(e) => patch({ bank: e.target.value })} data-testid="editor-bank-input" /></Field>
             <Field label="Signatory Name"><Input value={data.signName} onChange={(e) => patch({ signName: e.target.value })} data-testid="editor-sign-input" /></Field>
+            <Field label="Signature / stamp image (optional)">
+              <input ref={signInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => void handleSignature(e.target.files?.[0])} data-testid="editor-signature-input" />
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" disabled={uploading === "signature"} onClick={() => signInputRef.current?.click()} data-testid="editor-signature-upload-btn">
+                  {uploading === "signature" && <Loader2 className="size-4 animate-spin" />} {uploading === "signature" ? "Uploading…" : "Upload signature"}
+                </Button>
+                {data.signature && <Button variant="ghost" size="sm" onClick={() => patch({ signature: "" })}>Remove</Button>}
+                {data.signature && <img src={data.signature} alt="Signature preview" className="h-8 max-w-[96px] rounded border border-border bg-white object-contain" />}
+              </div>
+            </Field>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Template Style">
                 <Select value={data.templateStyle} onValueChange={(v: string) => patch({ templateStyle: v as DocData["templateStyle"] })}>
                   <SelectTrigger data-testid="editor-template-style-switch">
-                    <SelectValue>{(v: string) => (v === "swiss" ? "Swiss Architectural" : "Corporate Executive")}</SelectValue>
+                    <SelectValue>{(v: string) => (v === "classic" ? "Classic Boxed (real bill)" : v === "swiss" ? "Swiss Architectural" : "Corporate Executive")}</SelectValue>
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="classic">Classic Boxed (real bill)</SelectItem>
                     <SelectItem value="swiss">Swiss Architectural</SelectItem>
                     <SelectItem value="executive">Corporate Executive</SelectItem>
                   </SelectContent>

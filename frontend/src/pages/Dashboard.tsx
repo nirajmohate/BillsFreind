@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Copy, FileText, Plus, Trash2 } from "lucide-react";
 import { Seo } from "@/components/Seo";
+import { PAGE_META } from "@/lib/seo";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatDate, formatMoney } from "@/lib/format";
@@ -50,9 +51,10 @@ export default function Dashboard() {
   return (
     <main className="mx-auto max-w-7xl px-4 pb-24 pt-10 sm:px-6">
       <Seo
-        title="My Documents — Saved Bills & Drafts | BillsFriend"
-        description="All bills, invoices and receipts saved in this browser — reopen, duplicate or delete them. Stored locally on your device only."
-        path="/dashboard"
+        title={PAGE_META.dashboard.title}
+        description={PAGE_META.dashboard.description}
+        path={PAGE_META.dashboard.path}
+        noindex
       />
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>

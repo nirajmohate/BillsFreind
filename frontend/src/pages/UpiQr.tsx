@@ -3,6 +3,7 @@ import QRCode from "qrcode";
 import { Copy, Download, QrCode } from "lucide-react";
 import { toast } from "sonner";
 import { Seo } from "@/components/Seo";
+import { PAGE_META } from "@/lib/seo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,9 +37,9 @@ export default function UpiQr() {
   return (
     <main className="mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-6">
       <Seo
-        title="Free UPI QR Code Generator — Payment QR Online | BillsFriend"
-        description="Generate a scannable UPI payment QR code from any UPI ID — free, instant, downloadable PNG. Optional pre-filled amount and note."
-        path="/upi-qr"
+        title={PAGE_META.upiQr.title}
+        description={PAGE_META.upiQr.description}
+        path={PAGE_META.upiQr.path}
       />
       <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">UPI QR Generator</h1>
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">

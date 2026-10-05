@@ -1,12 +1,13 @@
 import { Seo } from "@/components/Seo";
+import { PAGE_META } from "@/lib/seo";
 
 export default function Terms() {
   return (
     <main className="mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-6">
       <Seo
-        title="Terms of Service — Free Fair Use | BillsFriend"
-        description="Terms of service for BillsFriend: free fair-use document generation, no warranty on tax compliance, ad-supported monetization disclosure."
-        path="/terms"
+        title={PAGE_META.terms.title}
+        description={PAGE_META.terms.description}
+        path={PAGE_META.terms.path}
       />
       <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Legal</p>
       <h1 className="mt-2 font-heading text-4xl font-bold tracking-tight">Terms of Service</h1>

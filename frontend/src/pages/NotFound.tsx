@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Seo } from "@/components/Seo";
+import { PAGE_META } from "@/lib/seo";
 import { buttonVariants } from "@/components/ui/button";
 import { TOOL_PRESETS } from "@/lib/tools";
 
@@ -7,9 +8,10 @@ export default function NotFound() {
   return (
     <main className="mx-auto max-w-4xl px-4 pb-24 pt-20 text-center sm:px-6">
       <Seo
-        title="Page not found (404) | BillsFriend"
-        description="That page doesn't exist. Browse BillsFriend's free bill and invoice generators instead."
-        path="/404"
+        title={PAGE_META.notFound.title}
+        description={PAGE_META.notFound.description}
+        path={PAGE_META.notFound.path}
+        noindex
       />
       <p className="font-mono text-7xl font-bold text-primary/25">404</p>
       <h1 className="mt-4 font-heading text-3xl font-bold tracking-tight">This page was never invoiced.</h1>
@@ -17,7 +19,7 @@ export default function NotFound() {
         The generator you're looking for doesn't exist — but all {TOOL_PRESETS.length} real ones do, and every one is free.
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-2">
-        {TOOL_PRESETS.slice(0, 6).map((p) => (
+        {TOOL_PRESETS.slice(0, 8).map((p) => (
           <Link key={p.id} to={`/${p.id}`} className="rounded-full border border-border/80 px-3 py-1.5 text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
             {p.name}
           </Link>

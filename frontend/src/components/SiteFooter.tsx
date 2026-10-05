@@ -19,7 +19,7 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Free online bill &amp; invoice generator for Indian businesses — GST-ready, no sign-up,
+              Free online bill &amp; invoice generator for Indian businesses and tradespeople — GST-ready, no sign-up,
               no watermark, no paywall. Your data never leaves your browser.
             </p>
           </div>
@@ -27,7 +27,7 @@ export function SiteFooter() {
           {[
             { title: "Popular tools", tools: colA },
             { title: "More generators", tools: colB },
-            { title: "Reimbursement & claims", tools: colC },
+            { title: "Travel, health & services", tools: colC },
           ].map((col) => (
             <nav key={col.title} aria-label={col.title}>
               <h3 className="font-mono text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -53,6 +53,8 @@ export function SiteFooter() {
           <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
             <Link to="/about" className="hover:text-foreground">About</Link>
             <Link to="/contact" className="hover:text-foreground">Contact</Link>
+            <Link to="/upi-qr" className="hover:text-foreground">UPI QR</Link>
+            <Link to="/dashboard" className="hover:text-foreground">My Documents</Link>
             <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link to="/terms" className="hover:text-foreground">Terms</Link>
           </div>

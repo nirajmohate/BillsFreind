@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, BadgeCheck, Lock, Printer, ShieldOff, WifiOff } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { AdSlot } from "@/components/AdSlot";
@@ -8,55 +8,10 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatMoney } from "@/lib/format";
 import { TOOL_PRESETS } from "@/lib/tools";
+import { HOME_FAQS, homeJsonLd, PAGE_META } from "@/lib/seo";
 
 
-const FAQS = [
-  {
-    q: "Is BillsFriend really 100% free?",
-    a: "Yes. Every generator — GST invoices, receipts, challans, payslips and more — is free with unlimited documents, no sign-up, no watermark and no premium tier.",
-  },
-  {
-    q: "Do I need to create an account?",
-    a: "No. BillsFriend works instantly in your browser. Your business profile and saved documents live on your own device — we never ask for your data.",
-  },
-  {
-    q: "Where is my data stored?",
-    a: "In your browser's local storage only. Documents are created and saved client-side; nothing is ever uploaded to a server.",
-  },
-  {
-    q: "How do I download a bill as PDF?",
-    a: "Press “Download PDF” on any generator and choose “Save as PDF” in the print dialog. The output is a clean, A4, print-ready document.",
-  },
-  {
-    q: "Is the GST invoice compliant with tax rules?",
-    a: "The generator produces Rule 46 style tax invoices with HSN/SAC codes, GSTIN, place of supply and a CGST/SGST or IGST breakdown. For filing, always cross-check with your chartered accountant.",
-  },
-  {
-    q: "Does it work on mobile?",
-    a: "Yes — BillsFriend is fully responsive, and documents are formatted to A4 whatever device you create them on.",
-  },
-];
-
-const faqLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: FAQS.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-};
-
-const webAppLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "BillsFriend — Free Bill & Invoice Generator",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Any (Web)",
-  description:
-    "Free online bill and invoice generator: GST tax invoices, receipts, quotations, challans, payslips and more. No sign-up, no watermark, instant PDF download.",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
-};
+const FAQS = HOME_FAQS;
 
 function MiniTestDrive() {
   const [desc, setDesc] = useState("Consulting — March");
@@ -88,15 +43,14 @@ function MiniTestDrive() {
 }
 
 export default function Home() {
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (hash === "#tools") document.getElementById("tools")?.scrollIntoView({ behavior: "smooth" });
+  }, [hash]);
 
   return (
     <main>
-      <Seo
-        title="BillsFriend — Free GST Invoice & Bill Generator (No Sign-up)"
-        description="Create GST invoices, receipts, quotations, challans, payslips and 15+ document types free online. Instant PDF download, no sign-up, no watermark — data stays in your browser."
-        path="/"
-        jsonLd={[webAppLd, faqLd]}
-      />
+      <Seo title={PAGE_META.home.title} description={PAGE_META.home.description} path={PAGE_META.home.path} jsonLd={homeJsonLd()} />
 
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border/70 bg-gradient-to-b from-accent/40 to-background">
@@ -112,8 +66,8 @@ export default function Home() {
               done in under a minute.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              15 professional document generators — GST tax invoices, receipts, challans,
-              quotations, payslips and more. Live totals, GST split, amount in words, and a
+              {TOOL_PRESETS.length} professional document generators — GST tax invoices, receipts, challans,
+              quotations, payslips, electrician, plumber and mechanic bills. Live totals, GST split, amount in words, and a
               pixel-perfect A4 PDF. Your data never leaves your browser.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
@@ -128,7 +82,7 @@ export default function Home() {
               {[
                 { icon: Lock, t: "No account needed" },
                 { icon: ShieldOff, t: "No data harvesting" },
-                { icon: Printer, t: "A4 print-perfect PDF" },
+                { icon: Printer, t: "A4 print-ready PDF" },
                 { icon: WifiOff, t: "Works offline" },
               ].map(({ icon: Icon, t }) => (
                 <li key={t} className="flex items-center gap-1.5"><Icon className="size-3.5 text-primary" /> {t}</li>
@@ -152,9 +106,9 @@ export default function Home() {
             Every generator is free, ships with realistic sample data and downloads a clean A4 PDF.
           </p>
         </div>
-        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-12">
-          {TOOL_PRESETS.map((p, i) => (
-            <ToolCard key={p.id} preset={p} wide={i === 0} />
+        <div className="mt-8 grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {TOOL_PRESETS.map((p) => (
+            <ToolCard key={p.id} preset={p} />
           ))}
         </div>
       </section>
@@ -200,7 +154,7 @@ export default function Home() {
         </div>
         <div className="mt-8 flex flex-wrap gap-2 text-xs text-muted-foreground">
           <span className="font-medium">Popular:</span>
-          {["gst-invoice", "general-bill", "rent-receipt", "salary-slip", "fuel-bill", "payment-receipt"].map((id) => {
+          {["gst-invoice", "general-bill", "rent-receipt", "salary-slip", "electrician-bill", "plumber-bill", "mechanic-bill", "payment-receipt"].map((id) => {
             const p = TOOL_PRESETS.find((t) => t.id === id)!;
             return (
               <Link key={id} to={`/${id}`} className="rounded-full border border-border/80 px-3 py-1 transition-colors hover:bg-accent hover:text-accent-foreground">

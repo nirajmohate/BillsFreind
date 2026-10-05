@@ -20,11 +20,13 @@ export interface DocItem {
   unit: string;
   rate: number;
   gstRate: number;
+  /** Only used by presets with `itemKinds` (e.g. parts vs labour on service bills). */
+  kind?: string;
 }
 
 export interface DocData {
   presetId: string;
-  templateStyle: "swiss" | "executive";
+  templateStyle: "classic" | "swiss" | "executive";
   accent: string;
   currency: string;
   number: string;
@@ -41,6 +43,10 @@ export interface DocData {
   signName: string;
   singleAmount: number;
   extra: Record<string, string>;
+  /** Optional free-text bank / payment details printed on the bill. */
+  bank?: string;
+  /** Optional signature / stamp image (data URL). */
+  signature?: string;
 }
 
 export interface ExtraField {
@@ -71,6 +77,14 @@ export interface ToolPreset {
   qtyLabel: string;
   rateLabel: string;
   showHsn: boolean;
+  /** Column heading for the HSN column (e.g. "Batch No." for pharmacy). Defaults to "HSN/SAC". */
+  hsnLabel?: string;
+  /** When set, each line item is tagged with one of these kinds and printed in grouped sections. */
+  itemKinds?: Array<{ id: string; label: string }>;
+  /** GST is available but off by default (small service providers). */
+  gstOptional?: boolean;
+  /** Which real-world printed layout this preset uses. */
+  layout: "invoice" | "cashmemo" | "receipt" | "voucher" | "payslip" | "challan" | "service" | "fuel";
   extraFields: ExtraField[];
 }
 
