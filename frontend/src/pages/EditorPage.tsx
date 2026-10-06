@@ -28,11 +28,11 @@ export default function EditorPage() {
           <span className="text-foreground">{preset.name}</span>
         </nav>
 
-        <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">{preset.name}</h1>
-              <span className="rounded-full border border-border bg-accent px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+        <div className="mt-4 grid grid-cols-1 items-end gap-4 sm:flex sm:flex-wrap sm:justify-between">
+          <div className="min-w-0">
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:gap-3">
+              <h1 className="min-w-0 text-2xl font-bold sm:text-4xl">{preset.name}</h1>
+              <span className="shrink-0 rounded-full border border-border bg-accent px-2.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider text-accent-foreground sm:text-[10px]">
                 {preset.badge}
               </span>
             </div>

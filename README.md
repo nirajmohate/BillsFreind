@@ -74,10 +74,3 @@ tests/      Playwright end-to-end tests
 ```
 
 See `README-DEPLOY.md` for more deployment detail.
-
-
-## Deploying (Vercel — recommended)
-
-1. Import the repo, set **Root Directory** to `frontend`. `vercel.json` already sets the install/build commands, clean URLs, security headers (CSP, HSTS, etc.), long-term caching and the `/editor/:id` → `/:id` redirect.
-2. `npm run build` also runs `scripts/prerender.mjs`, which writes a static HTML file per page (own title, description, canonical, Open Graph, JSON-LD), `404.html`, `sitemap.xml` and `robots.txt`. Adding a preset in `src/lib/tools.ts` adds its page and sitemap entry automatically.
-3. Using a custom domain? Set the env var `VITE_SITE_URL=https://www.yourdomain.com` before building so canonicals, sitemap and Open Graph URLs use it.

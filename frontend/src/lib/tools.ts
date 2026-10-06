@@ -98,6 +98,16 @@ export const TOOL_PRESETS: ToolPreset[] = [
     qtyLabel: "Qty", rateLabel: "Rate", showHsn: false, extraFields: [],
   },
   {
+    id: "cash-voucher", layout: "voucher", name: "Cash Voucher", docTitle: "CASH VOUCHER", category: "financial", badge: "Accounts",
+    description: "Traditional cash voucher with payee details, particulars, amount in words, payment reference and approval signatures.",
+    seoTitle: "Free Cash Voucher Generator Online (PDF) | BillsFriend",
+    seoDescription: "Create a printable cash payment voucher with payee GST and PAN, particulars, amount in words and approval signatures. Free instant PDF.",
+    accent: "#0369A1", taxMode: "none", amountMode: "single", numberPrefix: "CV", numberLabel: "Voucher No.",
+    fromLabel: "Prepared By", toLabel: "Pay To", amountLabel: "Voucher Amount", itemLabel: "Particulars",
+    qtyLabel: "Qty", rateLabel: "Rate", showHsn: false,
+    extraFields: [E("particulars", "Particulars", "text", "Being cash paid for…"), E("paymentMode", "Payment Mode", "text", "Cash / Cheque"), E("chequeNumber", "Cash / Cheque No."), E("accountOf", "Account Of")],
+  },
+  {
     id: "payment-receipt", layout: "receipt", name: "Payment Receipt", docTitle: "PAYMENT RECEIPT", category: "financial", badge: "Voucher",
     description: "Formal proof of payment received via Cash / UPI / NEFT / Cheque, with transaction reference and balance due.",
     seoTitle: "Free Payment Receipt Generator Online | BillsFriend",
@@ -312,6 +322,12 @@ export function sampleDoc(preset: ToolPreset): DocData {
         ["Teak Wood Screws (box)", "", 4, "BOX", 210, 0],
       ]);
       base.notes = "Goods once sold will not be taken back.";
+      break;
+    case "cash-voucher":
+      base.singleAmount = 440;
+      base.client = { ...SAMPLE_CLIENT, name: "Raghav Sir", gstin: "29AACCM1234K1Z2", pan: "AACCM1234K" };
+      base.extra = { particulars: "Being cash paid for machine spray foam WD-40", paymentMode: "Cash", chequeNumber: "", accountOf: "Workshop supplies" };
+      base.signName = "Accounts Manager";
       break;
     case "payment-receipt":
       base.singleAmount = 25000;

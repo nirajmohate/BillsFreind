@@ -67,7 +67,7 @@ export default function Home() {
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {TOOL_PRESETS.length} professional document generators — GST tax invoices, receipts, challans,
-              quotations, payslips, electrician, plumber and mechanic bills. Live totals, GST split, amount in words, and a
+              quotations, cash vouchers, payslips, electrician, plumber and mechanic bills. Live totals, GST split, amount in words, and a
               pixel-perfect A4 PDF. Your data never leaves your browser.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">

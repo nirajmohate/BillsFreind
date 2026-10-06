@@ -637,6 +637,62 @@ function ReceiptLayout({ data, preset, totals }: Props) {
   );
 }
 
+function VoucherLayout({ data, preset, totals }: Props) {
+  const x = data.extra;
+  const payeeDetails = [
+    data.client.gstin ? `GST No. ${data.client.gstin}` : "",
+    data.client.pan ? `PAN No. ${data.client.pan}` : "",
+  ].filter(Boolean).join("  ·  ");
+  return (
+    <Sheet fill={false}>
+      <div className={`grid grid-cols-[1fr_225px] border-b ${LINE}`}>
+        <div className="p-4"><BusinessBlock data={data} /></div>
+        <div className={`border-l ${LINE}`}>
+          <div className={`border-b px-3 py-3 text-center ${LINE}`}>
+            <p className="font-heading text-[23px] font-extrabold tracking-wide" style={{ color: data.accent }}>{preset.docTitle}</p>
+          </div>
+          <MetaTable data={data} preset={preset} />
+        </div>
+      </div>
+      <div className={`grid grid-cols-[112px_1fr] border-b text-[11px] ${LINE}`}>
+        <div className={`border-r px-3 py-2 font-bold uppercase tracking-wide text-slate-500 ${LINE}`}>Pay to</div>
+        <div className="px-3 py-2 font-bold text-slate-900">{data.client.name || <Placeholder text="Receiver / payee name" />}</div>
+        <div className={`border-r border-t px-3 py-2 font-bold uppercase tracking-wide text-slate-500 ${LINE}`}>Address</div>
+        <div className={`border-t px-3 py-2 whitespace-pre-line text-slate-800 ${LINE}`}>{data.client.address || <Placeholder text="Receiver address" />}</div>
+        <div className={`border-r border-t px-3 py-2 font-bold uppercase tracking-wide text-slate-500 ${LINE}`}>Tax details</div>
+        <div className={`border-t px-3 py-2 font-mono text-[10.5px] text-slate-800 ${LINE}`}>{payeeDetails || <Placeholder text="GST No. / PAN No." />}</div>
+      </div>
+      <div className={`grid min-h-[210px] grid-cols-[112px_1fr] border-b text-[12px] ${LINE}`}>
+        <div className={`border-r px-3 py-4 font-bold uppercase tracking-wide text-slate-500 ${LINE}`}>Particulars</div>
+        <div className="px-4 py-4 leading-relaxed text-slate-900">{x.particulars || <Placeholder text="Being cash paid for…" />}</div>
+      </div>
+      <div className={`grid grid-cols-2 border-b ${LINE}`}>
+        <div className={`border-r p-4 ${LINE}`}>
+          <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-slate-500">Amount in words</p>
+          <p className="mt-1 text-[12px] font-bold leading-snug text-slate-900">{amountToWords(totals.grand, data.currency)}</p>
+          <dl className="mt-4 space-y-1.5 text-[10.5px]">
+            {[["Payment mode", x.paymentMode], ["Cash / Cheque No.", x.chequeNumber], ["Account of", x.accountOf]].filter(([, v]) => v).map(([k, v]) => (
+              <div key={k} className="grid grid-cols-[110px_1fr] gap-2"><dt className="font-semibold text-slate-500">{k}</dt><dd className="font-medium text-slate-900">{v}</dd></div>
+            ))}
+          </dl>
+        </div>
+        <div className="flex items-center justify-between gap-3 p-4" style={{ backgroundColor: `${data.accent}12` }}>
+          <span className="text-[11px] font-extrabold uppercase tracking-[0.14em]" style={{ color: data.accent }}>Total</span>
+          <span className="border-2 px-4 py-2 text-[20px] font-extrabold tabular-nums" style={{ borderColor: data.accent, color: data.accent }} data-testid="doc-total-display">{formatMoney(totals.grand, data.currency)}/-</span>
+        </div>
+      </div>
+      <div className={`grid grid-cols-3 divide-x divide-slate-700 ${LINE}`}>
+        {["Prepared by", "Approved by", "Receiver's signature"].map((label, index) => (
+          <div key={label} className="flex min-h-[105px] flex-col justify-end p-3">
+            {index === 2 && data.signature ? <img src={data.signature} alt="Receiver signature" className="mb-1 h-10 max-w-[150px] object-contain" /> : <div className="h-10" />}
+            <p className="border-t border-slate-400 pt-1 text-center text-[10px] font-medium text-slate-700">{label}</p>
+          </div>
+        ))}
+      </div>
+    </Sheet>
+  );
+}
+
 // ---- fuel station slip -----------------------------------------------------
 function FuelLayout({ data, preset, totals }: Props) {
   const x = data.extra;
@@ -702,8 +758,8 @@ export function ClassicDoc(props: Props) {
     case "cashmemo": return <CashMemoLayout {...props} />;
     case "challan": return <ChallanLayout {...props} />;
     case "payslip": return <PayslipLayout {...props} />;
-    case "receipt":
-    case "voucher": return <ReceiptLayout {...props} />;
+    case "receipt": return <ReceiptLayout {...props} />;
+    case "voucher": return <VoucherLayout {...props} />;
     case "fuel": return <FuelLayout {...props} />;
     default: return <InvoiceLayout {...props} />;
   }
