@@ -1,0 +1,16 @@
+
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "bills-freind.vercel.app"
+        }
+      ],
+      "destination": "https://www.billsfreind.in/:path*",
+      "permanent": true
+    }
+  ]
+}
