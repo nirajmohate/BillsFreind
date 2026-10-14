@@ -19,12 +19,16 @@ export function Seo({
   path,
   jsonLd,
   noindex = false,
+  ogType = "website",
+  publishedTime,
 }: {
   title: string;
   description: string;
   path: string;
   jsonLd?: object | object[];
   noindex?: boolean;
+  ogType?: "website" | "article";
+  publishedTime?: string;
 }) {
   const jsonKey = JSON.stringify(jsonLd ?? null);
 
@@ -43,7 +47,10 @@ export function Seo({
     }
     canonical.href = url;
 
-    upsertMeta("property", "og:type", "website");
+    upsertMeta("property", "og:type", ogType);
+    const pub = document.head.querySelector('meta[property="article:published_time"]');
+    if (ogType === "article" && publishedTime) upsertMeta("property", "article:published_time", publishedTime);
+    else pub?.remove();
     upsertMeta("property", "og:site_name", SITE_NAME);
     upsertMeta("property", "og:locale", "en_IN");
     upsertMeta("property", "og:title", title);
@@ -67,7 +74,7 @@ export function Seo({
       script.textContent = jsonKey;
       document.head.appendChild(script);
     }
-  }, [title, description, path, jsonKey, noindex]);
+  }, [title, description, path, jsonKey, noindex, ogType, publishedTime]);
 
   return null;
 }

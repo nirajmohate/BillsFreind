@@ -1,8 +1,9 @@
 // Page metadata + structured data shared by the React app (Seo.tsx) and the build-time
 // prerender script (scripts/prerender.mjs), so crawlers see the same thing with or without JS.
 
-import { absoluteUrl, OG_IMAGE_PATH, SITE_NAME, SITE_URL } from "./site";
+import { absoluteUrl, OG_IMAGE_PATH, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "./site";
 import type { ToolPreset } from "./types";
+import { BLOG_AUTHOR, BLOG_POSTS, postPath, readingMinutes, type BlogPost } from "./blog";
 
 export interface PageMeta {
   path: string;
@@ -45,11 +46,23 @@ export const PAGE_META = {
     description: "BillsFriend stores your bills and business details only in your own browser — zero server-side document storage and no accounts, ever.",
     changefreq: "yearly", priority: 0.3,
   },
+  disclaimer: {
+    path: "/disclaimer",
+    title: "Disclaimer — Not Tax or Legal Advice | BillsFriend",
+    description: "BillsFriend is a bill-formatting tool, not tax, legal or accounting advice. Read how to use the generators and guides responsibly.",
+    changefreq: "yearly", priority: 0.3,
+  },
   terms: {
     path: "/terms",
     title: "Terms of Service — Free Fair Use | BillsFriend",
     description: "Terms of service for BillsFriend: free fair-use document generation, no warranty on tax compliance, and an advertising disclosure.",
     changefreq: "yearly", priority: 0.3,
+  },
+  blog: {
+    path: "/blog",
+    title: "Blog — GST Invoice & Billing Guides for India | BillsFriend",
+    description: "Plain-language guides on GST invoices, payment receipts and everyday billing for Indian businesses — written to help you get every bill right.",
+    changefreq: "weekly", priority: 0.7,
   },
   dashboard: {
     path: "/dashboard",
@@ -88,6 +101,7 @@ export function homeJsonLd(): object[] {
       name: SITE_NAME,
       url: SITE_URL,
       logo: absoluteUrl("/apple-touch-icon.png"),
+      sameAs: SOCIAL_LINKS.map((s) => s.url),
     },
     {
       "@context": "https://schema.org",
@@ -160,6 +174,71 @@ export function toolJsonLd(preset: ToolPreset): object[] {
 
 /** "a plumber bill" / "an electrician bill" */
 export const withArticle = (noun: string): string => `${/^[aeiou]/i.test(noun) ? "an" : "a"} ${noun}`;
+
+// ---------------------------------------------------------------- blog
+export function blogIndexJsonLd(): object[] {
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      name: `${SITE_NAME} Blog`,
+      url: absoluteUrl("/blog"),
+      description: PAGE_META.blog.description,
+      inLanguage: "en-IN",
+      blogPost: BLOG_POSTS.map((p) => ({
+        "@type": "BlogPosting",
+        headline: p.title,
+        url: absoluteUrl(postPath(p)),
+        datePublished: p.published,
+      })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+        { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+      ],
+    },
+  ];
+}
+
+export function postJsonLd(p: BlogPost): object[] {
+  const url = absoluteUrl(postPath(p));
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: p.title,
+      description: p.description,
+      url,
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      image: [absoluteUrl(OG_IMAGE_PATH)],
+      datePublished: p.published,
+      dateModified: p.updated,
+      articleSection: p.category,
+      inLanguage: "en-IN",
+      timeRequired: `PT${readingMinutes(p)}M`,
+      author: { "@type": "Organization", name: BLOG_AUTHOR, url: SITE_URL },
+      publisher: {
+        "@type": "Organization",
+        name: SITE_NAME,
+        url: SITE_URL,
+        logo: { "@type": "ImageObject", url: absoluteUrl("/apple-touch-icon.png") },
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+        { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+        { "@type": "ListItem", position: 3, name: p.title, item: url },
+      ],
+    },
+    faqLd(p.faqs),
+  ];
+}
 
 export function relatedPresets(preset: ToolPreset, all: ToolPreset[], n = 6): ToolPreset[] {
   const same = all.filter((p) => p.id !== preset.id && p.category === preset.category);

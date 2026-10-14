@@ -5,4 +5,4 @@ Disallow: /dashboard
 Disallow: /editor/
 Disallow: /*?doc=
 
-Sitemap: https://bills-freind.vercel.app/sitemap.xml
+Sitemap: https://www.billsfreind.in/sitemap.xml

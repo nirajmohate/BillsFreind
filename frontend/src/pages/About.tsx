@@ -3,6 +3,7 @@ import { Seo } from "@/components/Seo";
 import { PAGE_META } from "@/lib/seo";
 import { buttonVariants } from "@/components/ui/button";
 import { TOOL_PRESETS } from "@/lib/tools";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export default function About() {
   return (
@@ -41,6 +42,12 @@ export default function About() {
           gating a single feature. If a tool is useful to you, share it — that's the whole
           growth plan.
         </p>
+      </div>
+
+      <div className="mt-8">
+        <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Follow along</p>
+        <p className="mt-2 text-sm text-muted-foreground">Tutorials, new bill formats and updates on Instagram and YouTube.</p>
+        <SocialLinks showHandles className="mt-3" />
       </div>
 
       <div className="mt-10 flex flex-wrap gap-3">

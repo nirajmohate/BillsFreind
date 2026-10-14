@@ -4,6 +4,7 @@ import { Copy, Mail } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { PAGE_META } from "@/lib/seo";
 import { Button } from "@/components/ui/button";
+import { SocialLinks } from "@/components/SocialLinks";
 
 const CONTACT_EMAIL = "mohateniraj@gmail.com";
 
@@ -69,6 +70,11 @@ export default function Contact() {
         </div>
 
         <div className="space-y-3">
+          <div className="rounded-2xl border border-border/80 bg-card p-5" data-testid="contact-social-card">
+            <p className="text-sm font-semibold text-foreground">Prefer social media?</p>
+            <p className="mt-1 text-sm text-muted-foreground">Follow us for tutorials and new templates, or send a message there.</p>
+            <SocialLinks showHandles className="mt-3" />
+          </div>
           {FAQS.map((f, i) => (
             <details key={i} className="group rounded-xl border border-border/80 bg-card p-5" data-testid={`contact-faq-${i}`}>
               <summary className="cursor-pointer list-none text-sm font-semibold text-foreground marker:hidden">

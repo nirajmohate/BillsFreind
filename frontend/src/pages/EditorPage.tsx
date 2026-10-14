@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { DocumentEditor } from "@/components/DocumentEditor";
 import { getPreset, TOOL_PRESETS } from "@/lib/tools";
+import { postPath, postsForTool } from "@/lib/blog";
 import { relatedPresets, toolFaqs, toolJsonLd, toolSteps, withArticle } from "@/lib/seo";
 import NotFound from "@/pages/NotFound";
 
@@ -17,6 +18,7 @@ export default function EditorPage() {
   const steps = toolSteps(preset);
   const faqs = toolFaqs(preset);
   const related = relatedPresets(preset, TOOL_PRESETS, 6);
+  const guides = postsForTool(preset.id);
 
   return (
     <main className="pb-24">
@@ -28,11 +30,11 @@ export default function EditorPage() {
           <span className="text-foreground">{preset.name}</span>
         </nav>
 
-        <div className="mt-4 grid grid-cols-1 items-end gap-4 sm:flex sm:flex-wrap sm:justify-between">
-          <div className="min-w-0">
-            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:flex sm:gap-3">
-              <h1 className="min-w-0 text-2xl font-bold sm:text-4xl">{preset.name}</h1>
-              <span className="shrink-0 rounded-full border border-border bg-accent px-2.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider text-accent-foreground sm:text-[10px]">
+        <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">{preset.name}</h1>
+              <span className="rounded-full border border-border bg-accent px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
                 {preset.badge}
               </span>
             </div>
@@ -76,6 +78,19 @@ export default function EditorPage() {
             </div>
           </div>
         </section>
+
+        {guides.length > 0 && (
+          <section aria-label="Guides" className="no-print mt-12 rounded-2xl border border-border/80 bg-card p-5">
+            <h2 className="font-heading text-lg font-bold tracking-tight">Read the guide</h2>
+            <ul className="mt-2 space-y-1.5">
+              {guides.map((g) => (
+                <li key={g.slug}>
+                  <Link to={postPath(g)} className="text-sm font-medium text-primary underline-offset-2 hover:underline">{g.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <nav aria-label="Related generators" className="no-print mt-16 border-t border-border/70 pt-10">
           <h2 className="font-heading text-xl font-bold tracking-tight">More free bill &amp; invoice generators</h2>

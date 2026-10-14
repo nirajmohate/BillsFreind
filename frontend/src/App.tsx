@@ -14,7 +14,10 @@ const UpiQr = lazy(() => import("@/pages/UpiQr"));
 const About = lazy(() => import("@/pages/About"));
 const Contact = lazy(() => import("@/pages/Contact"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
+const Disclaimer = lazy(() => import("@/pages/Disclaimer"));
 const Terms = lazy(() => import("@/pages/Terms"));
+const Blog = lazy(() => import("@/pages/Blog"));
+const BlogPost = lazy(() => import("@/pages/BlogPost"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
 function ScrollManager() {
@@ -52,8 +55,11 @@ export default function App() {
             <Route path="/upi-qr" element={<UpiQr />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
             <Route path="/editor/:presetId" element={<EditorPage />} />
             <Route path="/:presetId" element={<EditorPage />} />
             <Route path="*" element={<NotFound />} />

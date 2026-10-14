@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { BrandMark } from "@/components/SiteHeader";
 import { TOOL_PRESETS } from "@/lib/tools";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export function SiteFooter() {
   const colA = TOOL_PRESETS.slice(0, 6);
@@ -22,6 +23,8 @@ export function SiteFooter() {
               Free online bill &amp; invoice generator for Indian businesses and tradespeople — GST-ready, no sign-up,
               no watermark, no paywall. Your data never leaves your browser.
             </p>
+            <p className="mt-5 font-mono text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Follow us</p>
+            <SocialLinks showHandles className="mt-2" />
           </div>
 
           {[
@@ -52,11 +55,13 @@ export function SiteFooter() {
           </p>
           <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
             <Link to="/about" className="hover:text-foreground">About</Link>
+            <Link to="/blog" className="hover:text-foreground">Blog</Link>
             <Link to="/contact" className="hover:text-foreground">Contact</Link>
             <Link to="/upi-qr" className="hover:text-foreground">UPI QR</Link>
             <Link to="/dashboard" className="hover:text-foreground">My Documents</Link>
             <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link to="/terms" className="hover:text-foreground">Terms</Link>
+            <Link to="/disclaimer" className="hover:text-foreground">Disclaimer</Link>
           </div>
         </div>
       </div>

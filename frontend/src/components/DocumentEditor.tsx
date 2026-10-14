@@ -1,9 +1,9 @@
 
-import { Children, cloneElement, isValidElement, useId, useMemo, useRef, useState } from "react";
+import { Children, cloneElement, isValidElement, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
-  Copy, FileJson, FilePlus2, Loader2, Printer, Save, Sparkles,
+  Copy, Eye, FileJson, FilePlus2, Loader2, Pencil, Printer, Save, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -85,6 +85,26 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
   const navigate = useNavigate();
   const [showErrors, setShowErrors] = useState(false);
   const [printing, setPrinting] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [previewInView, setPreviewInView] = useState(false);
+  const [typing, setTyping] = useState(false);
+
+  // Phones/tablets: a sticky Preview / Download bar. It flips to "Edit details" while the
+  // preview is on screen, and tucks away while a text field is focused so it never covers
+  // the keyboard or the field being typed in.
+  useEffect(() => {
+    const el = previewRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => setPreviewInView(entry.isIntersecting), { threshold: 0.25 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.add("has-action-bar");
+    return () => document.body.classList.remove("has-action-bar");
+  }, []);
   const [uploading, setUploading] = useState<"" | "logo" | "signature">("");
 
   const totals = useMemo(() => computeTotals(data, preset), [data, preset]);
@@ -170,6 +190,9 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
     toast.success("Sample data filled — press “Download PDF” to see the final output");
   };
 
+  const scrollToPreview = () => previewRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+
   const handlePrint = () => {
     const found = validateDoc(data, preset);
     const keys = Object.keys(found);
@@ -247,9 +270,9 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
   return (
     <div>
       {/* Action bar */}
-      <div className="no-print mb-5 grid grid-cols-1 gap-2 rounded-2xl border border-border/80 bg-card p-3 shadow-sm sm:flex sm:flex-wrap sm:items-center">
+      <div className="no-print mb-5 flex flex-wrap items-center gap-2 rounded-2xl border border-border/80 bg-card p-3 shadow-sm">
         <Select value={preset.id} onValueChange={(v: string) => { if (v !== preset.id) navigate(`/${v}`); }}>
-          <SelectTrigger className="h-9 w-full sm:w-[210px]" data-testid="editor-preset-selector" aria-label="Switch document type">
+          <SelectTrigger className="h-9 w-[210px]" data-testid="editor-preset-selector" aria-label="Switch document type">
             <SelectValue>{(v: string) => TOOL_PRESETS.find((p) => p.id === v)?.name ?? v}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -261,7 +284,7 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
         <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:inline">
           {dirty ? "● unsaved" : savedId ? "saved" : "new"}
         </span>
-        <div className="grid w-full grid-cols-2 gap-2 sm:ml-auto sm:flex sm:w-auto sm:flex-wrap sm:items-center">
+        <div className="ml-auto flex flex-wrap items-center gap-2">
           <Button variant="outline" size="sm" data-testid="editor-fill-sample-btn" onClick={handleSample}>
             <Sparkles className="size-4" /> Sample
           </Button>
@@ -274,17 +297,23 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
           <Button variant="outline" size="sm" data-testid="editor-download-json-btn" onClick={handleDownloadJSON}>
             <FileJson className="size-4" /> JSON
           </Button>
-          <Button size="sm" className="col-span-2 sm:col-span-1" data-testid="editor-print-pdf-btn" onClick={handlePrint} disabled={printing} aria-busy={printing}>
+          <Button size="sm" data-testid="editor-print-pdf-btn" onClick={handlePrint} disabled={printing} aria-busy={printing}>
             {printing ? <Loader2 className="size-4 animate-spin" /> : <Printer className="size-4" />} {printing ? "Preparing…" : "Download PDF"}
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         {/* Form column */}
-        <div className="no-print min-w-0 space-y-5 lg:col-span-5 xl:col-span-5">
+        <div
+          ref={formRef}
+          id="doc-form"
+          className="no-print min-w-0 scroll-mt-20 space-y-5 lg:col-span-5 xl:col-span-5"
+          onFocusCapture={(e) => { if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) setTyping(true); }}
+          onBlurCapture={() => setTyping(false)}
+        >
           <Section title="Document" testid="editor-section-document">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               <Field label={preset.numberLabel} error={err("number")}>
                 <Input value={data.number} onChange={(e) => patch({ number: e.target.value })} data-testid="editor-doc-number-input" />
               </Field>
@@ -350,7 +379,7 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
             <Field label="Address">
               <Textarea rows={2} value={data.business.address} onChange={(e) => patchBusiness("address", e.target.value)} data-testid="editor-business-address-input" />
             </Field>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               <Field label="Phone" error={err("businessPhone")}><Input type="tel" inputMode="tel" value={data.business.phone} onChange={(e) => patchBusiness("phone", e.target.value)} data-testid="editor-business-phone-input" /></Field>
               <Field label="Email" error={err("businessEmail")}><Input type="email" value={data.business.email} onChange={(e) => patchBusiness("email", e.target.value)} data-testid="editor-business-email-input" /></Field>
               <Field label="GSTIN" error={err("businessGstin")}><Input maxLength={15} value={data.business.gstin} onChange={(e) => patchBusiness("gstin", e.target.value.toUpperCase())} placeholder="33ABCDE1234F1Z5" data-testid="editor-business-gstin-input" /></Field>
@@ -383,11 +412,10 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
             <Field label="Address">
               <Textarea rows={2} value={data.client.address} onChange={(e) => patchClient("address", e.target.value)} data-testid="editor-client-address-input" />
             </Field>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               <Field label="Phone" error={err("clientPhone")}><Input type="tel" inputMode="tel" value={data.client.phone} onChange={(e) => patchClient("phone", e.target.value)} data-testid="editor-client-phone-input" /></Field>
               <Field label="Email" error={err("clientEmail")}><Input type="email" value={data.client.email} onChange={(e) => patchClient("email", e.target.value)} data-testid="editor-client-email-input" /></Field>
-              <Field label="GST No. (To)" error={err("clientGstin")}><Input maxLength={15} value={data.client.gstin} onChange={(e) => patchClient("gstin", e.target.value.toUpperCase())} placeholder="27ABCDE1234F1Z5" data-testid="editor-client-gstin-input" /></Field>
-              <Field label="PAN No. (To)" error={err("clientPan")}><Input maxLength={10} value={data.client.pan} onChange={(e) => patchClient("pan", e.target.value.toUpperCase())} placeholder="ABCDE1234F" data-testid="editor-client-pan-input" /></Field>
+              {showGst && <Field label="Client GSTIN" error={err("clientGstin")}><Input maxLength={15} value={data.client.gstin} onChange={(e) => patchClient("gstin", e.target.value.toUpperCase())} data-testid="editor-client-gstin-input" /></Field>}
             </div>
           </Section>
 
@@ -520,7 +548,7 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
 
           {preset.extraFields.length > 0 && (
             <Section title="Additional Details" testid="editor-section-extra">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-2 gap-3">
                 {preset.extraFields.map((f) => (
                   <Field key={f.key} label={f.label}>
                     <Input
@@ -551,7 +579,7 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
                 {data.signature && <img src={data.signature} alt="Signature preview" className="h-8 max-w-[96px] rounded border border-border bg-white object-contain" />}
               </div>
             </Field>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               <Field label="Template Style">
                 <Select value={data.templateStyle} onValueChange={(v: string) => patch({ templateStyle: v as DocData["templateStyle"] })}>
                   <SelectTrigger data-testid="editor-template-style-switch">
@@ -582,19 +610,29 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
               </Field>
             </div>
           </Section>
+
+          {/* Desktop: a second Download button right after the form */}
+          <div className="hidden gap-2 lg:flex" data-testid="editor-form-end-actions">
+            <Button size="lg" className="flex-1" data-testid="editor-print-pdf-btn-bottom" onClick={handlePrint} disabled={printing} aria-busy={printing}>
+              {printing ? <Loader2 className="size-4 animate-spin" /> : <Printer className="size-4" />} {printing ? "Preparing…" : "Download PDF"}
+            </Button>
+            <Button size="lg" variant="outline" data-testid="editor-save-draft-btn-bottom" onClick={handleSave}>
+              <Save className="size-4" /> Save
+            </Button>
+          </div>
         </div>
 
         {/* Preview column */}
-        <div className="min-w-0 lg:col-span-7 xl:col-span-7">
-          <div className="print-plain sticky top-24 rounded-2xl border border-border/80 bg-slate-200/60 p-2 shadow-inner sm:p-8 dark:bg-slate-900/60">
+        <div ref={previewRef} id="doc-preview" className="min-w-0 scroll-mt-20 lg:col-span-7 xl:col-span-7">
+          <div className="print-plain sticky top-24 rounded-2xl border border-border/80 bg-slate-200/60 p-4 shadow-inner sm:p-8 dark:bg-slate-900/60">
             <DocumentPreview data={data} preset={preset} />
           </div>
-          <div className="no-print mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-border/80 bg-card px-3 py-3 sm:px-4">
+          <div className="no-print mt-4 flex items-center justify-between rounded-xl border border-border/80 bg-card px-4 py-3">
             <div className="text-sm text-muted-foreground">
               {preset.amountLabel} · {data.currency}
             </div>
-            <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-              <span className="truncate font-mono text-base font-bold sm:text-lg" data-testid="editor-total-amount-display">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-lg font-bold" data-testid="editor-total-amount-display">
                 {formatMoney(totals.grand, data.currency)}
               </span>
               <Button variant="outline" size="sm" data-testid="editor-duplicate-btn" onClick={() => void handleDuplicate()}>
@@ -602,6 +640,38 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
               </Button>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Phones & tablets: sticky action bar */}
+      <div
+        data-testid="editor-mobile-bar"
+        role="toolbar"
+        aria-label="Preview and download"
+        className={`no-print fixed inset-x-0 bottom-0 z-40 border-t border-border/80 bg-background/95 px-3 pt-2.5 shadow-[0_-8px_24px_-12px_rgba(2,8,23,0.25)] backdrop-blur transition-transform duration-200 pb-[max(0.625rem,env(safe-area-inset-bottom))] lg:hidden ${typing ? "translate-y-full" : "translate-y-0"}`}
+      >
+        <div className="mx-auto flex max-w-xl items-center gap-2">
+          <Button
+            variant="outline"
+            size="lg"
+            className="h-11 flex-1"
+            data-testid="editor-mobile-preview-btn"
+            onClick={previewInView ? scrollToForm : scrollToPreview}
+          >
+            {previewInView ? <Pencil className="size-4" /> : <Eye className="size-4" />}
+            {previewInView ? "Edit details" : "Preview"}
+          </Button>
+          <Button
+            size="lg"
+            className="h-11 flex-1"
+            data-testid="editor-mobile-download-btn"
+            onClick={handlePrint}
+            disabled={printing}
+            aria-busy={printing}
+          >
+            {printing ? <Loader2 className="size-4 animate-spin" /> : <Printer className="size-4" />}
+            {printing ? "Preparing…" : "Download PDF"}
+          </Button>
         </div>
       </div>
     </div>

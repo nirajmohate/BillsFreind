@@ -29,7 +29,9 @@ try {
   const { TOOL_PRESETS } = await server.ssrLoadModule("/src/lib/tools.ts");
   const seo = await server.ssrLoadModule("/src/lib/seo.ts");
   const { SITE_URL, SITE_NAME, OG_IMAGE_PATH, OG_IMAGE_ALT } = await server.ssrLoadModule("/src/lib/site.ts");
-  const { PAGE_META, toolJsonLd, homeJsonLd, toolFaqs, toolSteps, HOME_FAQS, withArticle } = seo;
+  const { PAGE_META, toolJsonLd, homeJsonLd, toolFaqs, toolSteps, HOME_FAQS, withArticle, blogIndexJsonLd, postJsonLd } = seo;
+  const blog = await server.ssrLoadModule("/src/lib/blog.ts");
+  const { BLOG_POSTS, BLOG_AUTHOR, bodyHtml, postPath, readingMinutes } = blog;
 
   const template = await fs.readFile(path.join(dist, "index.html"), "utf8");
 
@@ -44,14 +46,15 @@ try {
   const abs = (p) => `${SITE_URL}${p}`;
   const image = abs(OG_IMAGE_PATH);
 
-  function headBlock({ title, description, path: p, noindex, jsonLd }) {
+  function headBlock({ title, description, path: p, noindex, jsonLd, ogType = "website", published }) {
     const url = abs(p === "/" ? "/" : p);
     const robots = noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1";
     const lines = [
       `<meta name="description" content="${esc(description)}" />`,
       `<meta name="robots" content="${robots}" />`,
       noindex ? "" : `<link rel="canonical" href="${esc(url)}" />`,
-      `<meta property="og:type" content="website" />`,
+      `<meta property="og:type" content="${ogType}" />`,
+      published ? `<meta property="article:published_time" content="${esc(published)}" />` : "",
       `<meta property="og:site_name" content="${esc(SITE_NAME)}" />`,
       `<meta property="og:locale" content="en_IN" />`,
       `<meta property="og:title" content="${esc(title)}" />`,
@@ -75,10 +78,12 @@ try {
   const navLinks = [
     ...TOOL_PRESETS.map((t) => `<li><a href="/${t.id}">${esc(t.name)}</a></li>`),
     `<li><a href="/upi-qr">UPI QR code generator</a></li>`,
+    `<li><a href="/blog">Blog</a></li>`,
     `<li><a href="/about">About</a></li>`,
     `<li><a href="/contact">Contact</a></li>`,
     `<li><a href="/privacy">Privacy policy</a></li>`,
     `<li><a href="/terms">Terms of service</a></li>`,
+    `<li><a href="/disclaimer">Disclaimer</a></li>`,
   ].join("");
 
   function noscriptBlock({ h1, description, extra = "" }) {
@@ -133,8 +138,26 @@ try {
     }),
   );
 
+  // Blog index + posts
+  const bm = PAGE_META.blog;
+  await write(bm.path, render(
+    { ...bm, jsonLd: blogIndexJsonLd() },
+    noscriptBlock({
+      h1: "Billing guides for Indian businesses",
+      description: bm.description,
+      extra: `<ul>${BLOG_POSTS.map((p) => `<li><a href="${postPath(p)}">${esc(p.title)}</a> — ${esc(p.excerpt)}</li>`).join("")}</ul>`,
+    }),
+  ));
+  pages.push({ loc: bm.path, changefreq: bm.changefreq, priority: bm.priority, lastmod: BLOG_POSTS.map((p) => p.updated).sort().pop() });
+  for (const p of BLOG_POSTS) {
+    const meta = { title: p.seoTitle, description: p.description, path: postPath(p), ogType: "article", published: p.published, jsonLd: postJsonLd(p) };
+    const article = `<article>${bodyHtml(p)}<h2>Frequently asked questions</h2>${p.faqs.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join("")}<p>By ${esc(BLOG_AUTHOR)} · ${esc(p.published)} · ${readingMinutes(p)} min read</p></article>`;
+    await write(meta.path, render(meta, noscriptBlock({ h1: p.title, description: p.excerpt, extra: article })));
+    pages.push({ loc: meta.path, changefreq: "monthly", priority: 0.8, lastmod: p.updated });
+  }
+
   // Static pages
-  for (const key of ["upiQr", "about", "contact", "privacy", "terms", "dashboard"]) {
+  for (const key of ["upiQr", "about", "contact", "privacy", "terms", "disclaimer", "dashboard"]) {
     const m = PAGE_META[key];
     await write(m.path, render(m, noscriptBlock({ h1: m.title.split(" | ")[0], description: m.description })));
     if (!m.noindex) pages.push({ loc: m.path, changefreq: m.changefreq, priority: m.priority });
@@ -152,7 +175,7 @@ try {
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages
-  .map((p) => `  <url>\n    <loc>${esc(abs(p.loc))}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`)
+  .map((p) => `  <url>\n    <loc>${esc(abs(p.loc))}</loc>\n    <lastmod>${p.lastmod ?? today}</lastmod>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`)
   .join("\n")}
 </urlset>
 `;

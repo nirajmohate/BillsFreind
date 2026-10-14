@@ -24,6 +24,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
       theme={theme}
       // bottom-right: top positions sit on the header nav and swallow clicks; bottom-left is the preview bug button
       position="bottom-right"
+      // phones: keep toasts above the sticky Preview / Download bar on editor pages
+      mobileOffset={{ bottom: 84, left: 12, right: 12 }}
       className="toaster group"
       icons={{
         success: (

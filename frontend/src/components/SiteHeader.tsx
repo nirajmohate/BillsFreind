@@ -144,6 +144,7 @@ export function SiteHeader() {
           {[
             { to: "/dashboard", label: "My Documents" },
             { to: "/upi-qr", label: "UPI QR" },
+            { to: "/blog", label: "Blog" },
             { to: "/about", label: "About" },
           ].map((l) => (
             <NavLink
@@ -195,6 +196,7 @@ export function SiteHeader() {
               { to: "/#tools", label: "All tools" },
               { to: "/dashboard", label: "My Documents" },
               { to: "/upi-qr", label: "UPI QR" },
+              { to: "/blog", label: "Blog" },
               { to: "/about", label: "About" },
               { to: "/contact", label: "Contact" },
             ].map((l) => (

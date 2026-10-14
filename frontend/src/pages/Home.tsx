@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { formatMoney } from "@/lib/format";
 import { TOOL_PRESETS } from "@/lib/tools";
 import { HOME_FAQS, homeJsonLd, PAGE_META } from "@/lib/seo";
+import { BLOG_POSTS, postPath, readingMinutes } from "@/lib/blog";
 
 
 const FAQS = HOME_FAQS;
@@ -67,7 +68,7 @@ export default function Home() {
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {TOOL_PRESETS.length} professional document generators — GST tax invoices, receipts, challans,
-              quotations, cash vouchers, payslips, electrician, plumber and mechanic bills. Live totals, GST split, amount in words, and a
+              quotations, payslips, electrician, plumber and mechanic bills. Live totals, GST split, amount in words, and a
               pixel-perfect A4 PDF. Your data never leaves your browser.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
@@ -135,6 +136,28 @@ export default function Home() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Blog teaser */}
+      <section className="mx-auto max-w-7xl px-4 pt-4 sm:px-6" aria-label="From the blog">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">From the blog</p>
+            <h2 className="mt-2 font-heading text-3xl font-bold tracking-tight">Get every bill right</h2>
+          </div>
+          <Link to="/blog" className="hidden shrink-0 text-sm font-medium text-primary hover:underline sm:block">All guides →</Link>
+        </div>
+        <ul className="mt-6 grid auto-rows-fr gap-4 md:grid-cols-2">
+          {BLOG_POSTS.map((p) => (
+            <li key={p.slug}>
+              <Link to={postPath(p)} className="flex h-full flex-col rounded-2xl border border-border/80 bg-card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-[0_12px_40px_-16px_rgba(2,8,23,0.35)]">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{p.category} · {readingMinutes(p)} min read</span>
+                <span className="mt-2 font-heading text-lg font-bold leading-snug tracking-tight text-foreground">{p.title}</span>
+                <span className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{p.excerpt}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* FAQ (SEO) */}
