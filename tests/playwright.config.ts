@@ -12,7 +12,7 @@ export default defineConfig({
     ['json', { outputFile: './test-results/results.json' }],
   ],
   use: {
-    // BillsFriend: pure static frontend, no backend/API to proxy.
+    // BillsFreind: pure static frontend, no backend/API to proxy.
     baseURL: 'http://localhost:3000',
     screenshot: 'on',
     trace: 'on-first-retry',

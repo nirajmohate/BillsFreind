@@ -5,7 +5,7 @@ import { PAGE_META } from "@/lib/seo";
 const SECTIONS: Array<[string, string]> = [
   [
     "Not tax, legal or accounting advice",
-    "BillsFriend is a document-formatting tool and its blog is general information. Nothing on this website — including the GST invoice generator, sample data and articles — is tax, legal, financial or accounting advice. Rules, rates and thresholds change, so confirm anything that affects your filings or compliance with a qualified chartered accountant or other professional.",
+    "BillsFreind is a document-formatting tool and its blog is general information. Nothing on this website — including the GST invoice generator, sample data and articles — is tax, legal, financial or accounting advice. Rules, rates and thresholds change, so confirm anything that affects your filings or compliance with a qualified chartered accountant or other professional.",
   ],
   [
     "You are responsible for what you enter",
@@ -13,11 +13,11 @@ const SECTIONS: Array<[string, string]> = [
   ],
   [
     "GST invoices and e-invoicing",
-    "The GST invoice format follows common Indian invoicing conventions, but we do not guarantee that a document meets every requirement of the CGST Act, the CGST Rules or any state law for your particular business. BillsFriend does not connect to the government's Invoice Registration Portal and does not generate an IRN or e-invoice QR code. If your business is required to issue e-invoices, you must generate them through the government system.",
+    "The GST invoice format follows common Indian invoicing conventions, but we do not guarantee that a document meets every requirement of the CGST Act, the CGST Rules or any state law for your particular business. BillsFreind does not connect to the government's Invoice Registration Portal and does not generate an IRN or e-invoice QR code. If your business is required to issue e-invoices, you must generate them through the government system.",
   ],
   [
     "Not affiliated with any authority",
-    "BillsFriend is an independent project. It is not affiliated with, endorsed by or approved by the GST Council, the Central Board of Indirect Taxes and Customs (CBIC), the Income Tax Department, the Government of India, or any bank, UPI app or payment provider mentioned on this site.",
+    "BillsFreind is an independent project. It is not affiliated with, endorsed by or approved by the GST Council, the Central Board of Indirect Taxes and Customs (CBIC), the Income Tax Department, the Government of India, or any bank, UPI app or payment provider mentioned on this site.",
   ],
   [
     "Accuracy of information",
@@ -25,7 +25,7 @@ const SECTIONS: Array<[string, string]> = [
   ],
   [
     "Payments and UPI QR codes",
-    "BillsFriend does not process, hold or transfer money. A UPI QR code is generated on your device from the UPI ID you enter. Check the ID and the amount before sharing a QR code or relying on one, because we are not responsible for payments made to a wrong or mistyped UPI ID.",
+    "BillsFreind does not process, hold or transfer money. A UPI QR code is generated on your device from the UPI ID you enter. Check the ID and the amount before sharing a QR code or relying on one, because we are not responsible for payments made to a wrong or mistyped UPI ID.",
   ],
   [
     "Your data and backups",
@@ -37,7 +37,7 @@ const SECTIONS: Array<[string, string]> = [
   ],
   [
     "Limitation of liability",
-    "BillsFriend is provided “as is” and “as available”, free of charge. To the fullest extent permitted by law, we are not liable for any loss, penalty, tax demand, lost credit, lost data or other damage arising from the use of — or inability to use — this website, its tools or its content.",
+    "BillsFreind is provided “as is” and “as available”, free of charge. To the fullest extent permitted by law, we are not liable for any loss, penalty, tax demand, lost credit, lost data or other damage arising from the use of — or inability to use — this website, its tools or its content.",
   ],
 ];
 
@@ -54,7 +54,7 @@ export default function Disclaimer() {
       <p className="mt-3 text-sm text-muted-foreground">Last updated: 13 October 2026</p>
 
       <div className="mt-6 rounded-2xl border border-primary/25 bg-accent/60 p-5 text-sm leading-relaxed text-accent-foreground">
-        <strong>In short:</strong> BillsFriend helps you format bills and invoices. It is not a substitute for professional
+        <strong>In short:</strong> BillsFreind helps you format bills and invoices. It is not a substitute for professional
         tax or legal advice, and you are responsible for checking every document before you use it.
       </div>
 

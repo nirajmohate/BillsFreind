@@ -1,4 +1,4 @@
-# BillsFriend — robots.txt
+# BillsFreind — robots.txt
 User-agent: *
 Allow: /
 Disallow: /dashboard

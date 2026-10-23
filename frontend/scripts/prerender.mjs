@@ -93,7 +93,7 @@ try {
         <p>${esc(description)}</p>
         ${extra}
         <nav aria-label="All generators"><p>Free bill and invoice generators:</p><ul>${navLinks}</ul></nav>
-        <p>BillsFriend needs JavaScript to build bills in your browser. Please enable JavaScript.</p>
+        <p>BillsFreind needs JavaScript to build bills in your browser. Please enable JavaScript.</p>
       </main>
     </noscript>`;
   }
@@ -181,7 +181,7 @@ ${pages
 `;
 
   // robots.txt
-  const robots = `# BillsFriend — robots.txt
+  const robots = `# BillsFreind — robots.txt
 User-agent: *
 Allow: /
 Disallow: /dashboard
