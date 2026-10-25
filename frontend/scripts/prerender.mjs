@@ -95,7 +95,9 @@ try {
         <p>${esc(description)}</p>
         ${extra}
         <nav aria-label="All generators"><p>Free bill and invoice generators:</p><ul>${navLinks}</ul></nav>
-      </main>`;
+        <p>BillsFriend needs JavaScript to build bills in your browser. Please enable JavaScript.</p>
+      </main>
+    </noscript>`;
   }
 
   function render(meta, content) {
