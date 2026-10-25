@@ -7,7 +7,7 @@ export const SITE_URL: string = (
 ).replace(/\/+$/, "");
 export const SITE_NAME = "BillsFreind";
 // Common spellings people may search for — published as alternateName in structured data.
-export const SITE_ALTERNATE_NAMES = ["Bills Freind", "BillsFriend", "billsfreind.in"];
+export const SITE_ALTERNATE_NAMES = ["Bills Freind", "BillsFreind", "billsfreind.in"];
 export const OG_IMAGE_PATH = "/og-image.png";
 export const OG_IMAGE_ALT = "BillsFreind — free GST invoice and bill generator";
 export const absoluteUrl = (path: string): string => `${SITE_URL}${path === "/" ? "/" : path}`;
