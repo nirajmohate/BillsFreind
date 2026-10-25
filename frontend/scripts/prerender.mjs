@@ -86,23 +86,23 @@ try {
     `<li><a href="/disclaimer">Disclaimer</a></li>`,
   ].join("");
 
+  // Crawlable static content. It is written INTO <div id="root"> (not just <noscript>) so crawlers
+  // that read raw HTML without running JavaScript — Bing's URL Inspection, social scrapers — see a real
+  // <h1>, text and links. React's createRoot() replaces it as soon as the app loads.
   function noscriptBlock({ h1, description, extra = "" }) {
-    return `<noscript>
-      <main>
+    return `<main data-prerender="1">
         <h1>${esc(h1)}</h1>
         <p>${esc(description)}</p>
         ${extra}
         <nav aria-label="All generators"><p>Free bill and invoice generators:</p><ul>${navLinks}</ul></nav>
-        <p>BillsFriend needs JavaScript to build bills in your browser. Please enable JavaScript.</p>
-      </main>
-    </noscript>`;
+      </main>`;
   }
 
-  function render(meta, noscript) {
+  function render(meta, content) {
     return template
       .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${esc(meta.title)}</title>`)
       .replace(/<!--seo-head-->[\s\S]*?<!--\/seo-head-->/, () => headBlock(meta))
-      .replace(/<!--seo-noscript-->[\s\S]*?<!--\/seo-noscript-->/, () => noscript);
+      .replace('<div id="root"></div>', () => `<div id="root">${content}</div>`);
   }
 
   async function write(route, html) {
@@ -181,7 +181,7 @@ ${pages
 `;
 
   // robots.txt
-  const robots = `# BillsFriend — robots.txt
+  const robots = `# BillsFreind — robots.txt
 User-agent: *
 Allow: /
 Disallow: /dashboard

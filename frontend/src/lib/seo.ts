@@ -1,7 +1,7 @@
 // Page metadata + structured data shared by the React app (Seo.tsx) and the build-time
 // prerender script (scripts/prerender.mjs), so crawlers see the same thing with or without JS.
 
-import { absoluteUrl, OG_IMAGE_PATH, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "./site";
+import { absoluteUrl, OG_IMAGE_PATH, SITE_ALTERNATE_NAMES, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "./site";
 import type { ToolPreset } from "./types";
 import { BLOG_AUTHOR, BLOG_POSTS, postPath, readingMinutes, type BlogPost } from "./blog";
 
@@ -18,73 +18,73 @@ export interface PageMeta {
 export const PAGE_META = {
   home: {
     path: "/",
-    title: "BillsFriend — Free GST Invoice & Bill Generator (No Sign-up)",
+    title: "BillsFreind — Free GST Invoice & Bill Generator (No Sign-up)",
     description: "Create GST invoices, receipts, quotations, challans, payslips and electrician, plumber & mechanic bills free online. Instant PDF, no sign-up, no watermark.",
     changefreq: "weekly", priority: 1,
   },
   upiQr: {
     path: "/upi-qr",
-    title: "Free UPI QR Code Generator Online | BillsFriend",
+    title: "Free UPI QR Code Generator Online | BillsFreind",
     description: "Generate a scannable UPI payment QR code from any UPI ID — free, instant, downloadable PNG. Optional pre-filled amount and note.",
     changefreq: "monthly", priority: 0.7,
   },
   about: {
     path: "/about",
-    title: "About BillsFriend — Free, Private Bill Generator",
-    description: "BillsFriend is a 100% free bill and invoice generator that runs entirely in your browser. No accounts, no data harvesting, no watermarks — by design.",
+    title: "About BillsFreind — Free, Private Bill Generator",
+    description: "BillsFreind is a 100% free bill and invoice generator that runs entirely in your browser. No accounts, no data harvesting, no watermarks — by design.",
     changefreq: "yearly", priority: 0.5,
   },
   contact: {
     path: "/contact",
-    title: "Contact BillsFriend — Support & Template Requests",
-    description: "Missing a document type, found a bug, or have a suggestion? Email the BillsFriend team directly — free tools improve from your feedback.",
+    title: "Contact BillsFreind — Support & Template Requests",
+    description: "Missing a document type, found a bug, or have a suggestion? Email the BillsFreind team directly — free tools improve from your feedback.",
     changefreq: "yearly", priority: 0.5,
   },
   privacy: {
     path: "/privacy",
-    title: "Privacy Policy — Zero Server-side Storage | BillsFriend",
-    description: "BillsFriend stores your bills and business details only in your own browser — zero server-side document storage and no accounts, ever.",
+    title: "Privacy Policy — Zero Server-side Storage | BillsFreind",
+    description: "BillsFreind stores your bills and business details only in your own browser — zero server-side document storage and no accounts, ever.",
     changefreq: "yearly", priority: 0.3,
   },
   disclaimer: {
     path: "/disclaimer",
-    title: "Disclaimer — Not Tax or Legal Advice | BillsFriend",
-    description: "BillsFriend is a bill-formatting tool, not tax, legal or accounting advice. Read how to use the generators and guides responsibly.",
+    title: "Disclaimer — Not Tax or Legal Advice | BillsFreind",
+    description: "BillsFreind is a bill-formatting tool, not tax, legal or accounting advice. Read how to use the generators and guides responsibly.",
     changefreq: "yearly", priority: 0.3,
   },
   terms: {
     path: "/terms",
-    title: "Terms of Service — Free Fair Use | BillsFriend",
-    description: "Terms of service for BillsFriend: free fair-use document generation, no warranty on tax compliance, and an advertising disclosure.",
+    title: "Terms of Service — Free Fair Use | BillsFreind",
+    description: "Terms of service for BillsFreind: free fair-use document generation, no warranty on tax compliance, and an advertising disclosure.",
     changefreq: "yearly", priority: 0.3,
   },
   blog: {
     path: "/blog",
-    title: "Blog — GST Invoice & Billing Guides for India | BillsFriend",
-    description: "Plain-language guides on GST invoices, payment receipts and everyday billing for Indian businesses — written to help you get every bill right.",
+    title: "Blog — GST Invoice & Billing Guides for India | BillsFreind",
+    description: "Plain-language guides on GST invoices, bill of supply, GST calculation, payment receipts and everyday billing for Indian businesses.",
     changefreq: "weekly", priority: 0.7,
   },
   dashboard: {
     path: "/dashboard",
-    title: "My Documents — Saved Bills & Drafts | BillsFriend",
+    title: "My Documents — Saved Bills & Drafts | BillsFreind",
     description: "All bills, invoices and receipts saved in this browser — reopen, duplicate or delete them. Stored locally on your device only.",
     noindex: true,
   },
   notFound: {
     path: "/404",
-    title: "Page not found (404) | BillsFriend",
-    description: "That page doesn't exist. Browse BillsFriend's free bill and invoice generators instead.",
+    title: "Page not found (404) | BillsFreind",
+    description: "That page doesn't exist. Browse BillsFreind's free bill and invoice generators instead.",
     noindex: true,
   },
 } satisfies Record<string, PageMeta>;
 
 export const HOME_FAQS = [
-  { q: "Is BillsFriend really 100% free?", a: "Yes. Every generator — GST invoices, receipts, challans, payslips, electrician, plumber and mechanic bills — is free with unlimited documents, no sign-up, no watermark and no premium tier." },
-  { q: "Do I need to create an account?", a: "No. BillsFriend works instantly in your browser. Your business profile and saved documents live on your own device — we never ask for your data." },
+  { q: "Is BillsFreind really 100% free?", a: "Yes. Every generator — GST invoices, receipts, challans, payslips, electrician, plumber and mechanic bills — is free with unlimited documents, no sign-up, no watermark and no premium tier." },
+  { q: "Do I need to create an account?", a: "No. BillsFreind works instantly in your browser. Your business profile and saved documents live on your own device — we never ask for your data." },
   { q: "Where is my data stored?", a: "In your browser's local storage only. Documents are created and saved client-side; nothing is ever uploaded to a server." },
   { q: "How do I download a bill as PDF?", a: "Press “Download PDF” on any generator and choose “Save as PDF” in the print dialog. The output is a clean, A4, print-ready document." },
   { q: "Is the GST invoice compliant with tax rules?", a: "The generator produces Rule 46 style tax invoices with HSN/SAC codes, GSTIN, place of supply and a CGST/SGST or IGST breakdown. For filing, always cross-check with your chartered accountant." },
-  { q: "Does it work on mobile?", a: "Yes — BillsFriend is fully responsive, and documents are formatted to A4 whatever device you create them on." },
+  { q: "Does it work on mobile?", a: "Yes — BillsFreind is fully responsive, and documents are formatted to A4 whatever device you create them on." },
 ];
 
 const faqLd = (items: Array<{ q: string; a: string }>) => ({
@@ -99,6 +99,7 @@ export function homeJsonLd(): object[] {
       "@context": "https://schema.org",
       "@type": "Organization",
       name: SITE_NAME,
+      alternateName: SITE_ALTERNATE_NAMES,
       url: SITE_URL,
       logo: absoluteUrl("/apple-touch-icon.png"),
       sameAs: SOCIAL_LINKS.map((s) => s.url),
@@ -107,13 +108,14 @@ export function homeJsonLd(): object[] {
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: SITE_NAME,
+      alternateName: SITE_ALTERNATE_NAMES,
       url: SITE_URL,
       inLanguage: "en-IN",
     },
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "BillsFriend — Free Bill & Invoice Generator",
+      name: "BillsFreind — Free Bill & Invoice Generator",
       url: SITE_URL,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Any (Web)",
@@ -147,7 +149,7 @@ export function toolJsonLd(preset: ToolPreset): object[] {
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      name: `BillsFriend — ${preset.name}`,
+      name: `BillsFreind — ${preset.name}`,
       url,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Any (Web)",

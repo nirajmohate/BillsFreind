@@ -43,7 +43,7 @@ export default function Privacy() {
 
       <div className="mt-8 space-y-4 text-sm leading-relaxed text-muted-foreground">
         <p>
-          <strong className="text-foreground">The short version:</strong> BillsFriend executes
+          <strong className="text-foreground">The short version:</strong> BillsFreind executes
           100% client-side. Your invoices, receipts and business details are created and stored
           in your browser and are never required to leave it. Clearing your browser data deletes
           them permanently — use the JSON export in the editor to keep a copy if the documents matter.
