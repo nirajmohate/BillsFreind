@@ -36,6 +36,7 @@ export const BLOG_AUTHOR = "BillsFreind Team";
 // -------------------------------------------------------------------- posts
 export const BLOG_POSTS: BlogPost[] = [
   {
+<<<<<<< HEAD
     slug: "how-to-make-rent-receipt-for-hra",
     title: "How to Make a Rent Receipt for HRA (Format and Rules)",
     seoTitle: "Rent Receipt for HRA: Format, Rules and Free Generator",
@@ -727,6 +728,9 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "gst-invoice-vs-bill-of-supply",
     keywords: ["GST invoice vs bill of supply", "bill of supply", "GST invoice", "invoice bill"],
+=======
+    slug: "gst-invoice-vs-bill-of-supply",
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
     title: "GST Invoice vs Bill of Supply: What's the Difference?",
     seoTitle: "GST Invoice vs Bill of Supply: What's the Difference?",
     description:
@@ -766,6 +770,7 @@ export const BLOG_POSTS: BlogPost[] = [
         t: "p",
         text: "A tax invoice is the document a registered supplier issues for a taxable supply. It shows the value of the supply, the GST rate and the GST charged — split into CGST and SGST for in-state sales or IGST for inter-state sales. Because the tax is itemised, the buyer can use the invoice to claim input tax credit (ITC). The full list of mandatory details is in our guide on [how to create a GST invoice](/blog/how-to-create-gst-invoice).",
       },
+<<<<<<< HEAD
       {
         t: "img",
         src: "/blog/gst-invoice-sample.webp",
@@ -774,6 +779,8 @@ export const BLOG_POSTS: BlogPost[] = [
         width: 900,
         height: 1272,
       },
+=======
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
       { t: "h2", id: "what-is-bill-of-supply", text: "What is a bill of supply?" },
       {
         t: "p",
@@ -861,10 +868,13 @@ export const BLOG_POSTS: BlogPost[] = [
         text: "This guide explains common GST documentation rules in plain language. It is not tax or legal advice. Rules, rates and exemptions change, so confirm your position with a chartered accountant. See our [disclaimer](/disclaimer).",
       },
       {
+<<<<<<< HEAD
         t: "p",
         text: "**Related guides:** [how to create a GST invoice](/blog/how-to-create-gst-invoice), [how to calculate GST on an invoice](/blog/how-to-calculate-gst-on-invoice), [HSN code vs SAC code](/blog/hsn-code-vs-sac-code), [invoice vs bill vs receipt](/blog/invoice-vs-bill-vs-receipt), [proforma invoice vs tax invoice](/blog/proforma-invoice-vs-tax-invoice).",
       },
       {
+=======
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
         t: "cta",
         text: "Registered and charging GST? Fill in the form, check the live preview and download a print-ready A4 tax invoice — free, with no sign-up and no watermark.",
         to: "/gst-invoice",
@@ -897,7 +907,10 @@ export const BLOG_POSTS: BlogPost[] = [
 
   {
     slug: "how-to-calculate-gst-on-invoice",
+<<<<<<< HEAD
     keywords: ["how to calculate GST on invoice", "GST calculation", "GST invoice", "GST formula", "invoice bill"],
+=======
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
     title: "How to Calculate GST on an Invoice (With Examples)",
     seoTitle: "How to Calculate GST on an Invoice (With Examples)",
     description:
@@ -1000,6 +1013,7 @@ export const BLOG_POSTS: BlogPost[] = [
         t: "p",
         text: "The total GST is the same either way — only the split changes. For a **sale within one state**, the GST is divided equally into CGST (Centre) and SGST (State), each at half the rate. For a **sale between two states**, the whole amount is charged as IGST. On a taxable value of ₹10,000 at 18%, that is ₹900 CGST + ₹900 SGST within a state, or ₹1,800 IGST between states. Our guide on [how to create a GST invoice](/blog/how-to-create-gst-invoice) explains how to decide which applies.",
       },
+<<<<<<< HEAD
       {
         t: "img",
         src: "/blog/gst-invoice-sample.webp",
@@ -1008,6 +1022,8 @@ export const BLOG_POSTS: BlogPost[] = [
         width: 900,
         height: 1272,
       },
+=======
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
       { t: "h2", id: "multiple-rates", text: "Example 4: An invoice with different GST rates" },
       {
         t: "p",
@@ -1069,10 +1085,13 @@ export const BLOG_POSTS: BlogPost[] = [
         text: "This guide explains how to work out GST on an invoice. It is not tax or legal advice. Rates, rules and exemptions change, so confirm details with a chartered accountant before filing returns. See our [disclaimer](/disclaimer).",
       },
       {
+<<<<<<< HEAD
         t: "p",
         text: "**Related guides:** [how to create a GST invoice](/blog/how-to-create-gst-invoice), [HSN code vs SAC code](/blog/hsn-code-vs-sac-code), [GST invoice vs bill of supply](/blog/gst-invoice-vs-bill-of-supply), [choosing a free invoice generator in India](/blog/best-free-invoice-generator-india), [electrician, plumber and mechanic bill format](/blog/electrician-plumber-mechanic-bill-format).",
       },
       {
+=======
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
         t: "cta",
         text: "Skip the manual maths. Add your items, pick the GST rate and download an invoice with the tax already calculated — free, with no sign-up and no watermark.",
         to: "/gst-invoice",
@@ -1399,10 +1418,13 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         t: "p",
         text: "BillsFreind stores your saved documents only in your own browser — nothing is uploaded. That is great for privacy, but clearing your browser data also clears your saved bills. For anything you may need later, use the **JSON** button to export a backup and keep the PDF alongside your accounts.",
+<<<<<<< HEAD
       },
       {
         t: "p",
         text: "**Related guides:** [invoice vs bill vs receipt](/blog/invoice-vs-bill-vs-receipt), [choosing a free invoice generator in India](/blog/best-free-invoice-generator-india), [how to make a rent receipt for HRA](/blog/how-to-make-rent-receipt-for-hra), [how to create a GST invoice](/blog/how-to-create-gst-invoice), [electrician, plumber and mechanic bill format](/blog/electrician-plumber-mechanic-bill-format).",
+=======
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
       },
       {
         t: "cta",

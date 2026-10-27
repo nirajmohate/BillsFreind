@@ -19,7 +19,11 @@ export const PAGE_META = {
   home: {
     path: "/",
     title: "BillsFreind — Free GST Invoice & Bill Generator (No Sign-up)",
+<<<<<<< HEAD
     description: "Free bill generator and GST invoice maker: create invoice bills, receipts, quotations, challans and payslips online. Instant PDF, no sign-up, no watermark.",
+=======
+    description: "Create GST invoices, receipts, quotations, challans, payslips and electrician, plumber & mechanic bills free online. Instant PDF, no sign-up, no watermark.",
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
     changefreq: "weekly", priority: 1,
   },
   upiQr: {
@@ -84,8 +88,11 @@ export const HOME_FAQS = [
   { q: "Where is my data stored?", a: "In your browser's local storage only. Documents are created and saved client-side; nothing is ever uploaded to a server." },
   { q: "How do I download a bill as PDF?", a: "Press “Download PDF” on any generator and choose “Save as PDF” in the print dialog. The output is a clean, A4, print-ready document." },
   { q: "Is the GST invoice compliant with tax rules?", a: "The generator produces Rule 46 style tax invoices with HSN/SAC codes, GSTIN, place of supply and a CGST/SGST or IGST breakdown. For filing, always cross-check with your chartered accountant." },
+<<<<<<< HEAD
   { q: "What is a free bill generator?", a: "A free bill generator is an online tool that turns the items, rates and customer details you enter into a printable bill or invoice. BillsFreind is free, needs no sign-up and adds no watermark to the PDF." },
   { q: "How do I make an invoice bill online for free?", a: "Open the generator you need, such as the GST invoice, enter your details and add each item with its rate. Check the live preview, then press “Download PDF” and choose “Save as PDF”." },
+=======
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
   { q: "Does it work on mobile?", a: "Yes — BillsFreind is fully responsive, and documents are formatted to A4 whatever device you create them on." },
 ];
 

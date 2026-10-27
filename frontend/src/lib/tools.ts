@@ -91,7 +91,11 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "general-bill", layout: "cashmemo", name: "General Bill / Cash Memo", docTitle: "BILL / CASH MEMO", category: "business", badge: "Universal",
     description: "Clean modern retail bill with itemized quantities, unit rates, discount and a signature line.",
+<<<<<<< HEAD
     seoTitle: "Free Bill Generator Online: Bill & Cash Memo | BillsFreind",
+=======
+    seoTitle: "Free Bill & Cash Memo Generator Online | BillsFreind",
+>>>>>>> 82bf2985c857ccef2f71ca7027621b84dcf92877
     seoDescription: "Make a printable bill or cash memo with itemised quantities, rates, discount and signature line. Free, no sign-up, no watermark, instant PDF.",
     accent: "#0284C7", taxMode: "none", amountMode: "items", numberPrefix: "BILL", numberLabel: "Bill No.",
     fromLabel: "Billed By", toLabel: "Bill To", amountLabel: "Bill Amount", itemLabel: "Description",
