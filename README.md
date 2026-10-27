@@ -1,6 +1,6 @@
-# BillsFriend
+# BillsFreind
 
-BillsFriend is a browser-first bill/invoice generator. Everything — the
+BillsFreind is a browser-first bill/invoice generator. Everything — the
 document editor, calculations, templates, QR code generation and the
 print/PDF workflow — runs entirely in the React frontend.
 
@@ -58,8 +58,8 @@ depends on them.
 
 ```bash
 cd frontend
-docker build -t billsfriend .
-docker run -p 3000:80 billsfriend
+docker build -t billsfreind .
+docker run -p 3000:80 billsfreind
 ```
 
 This builds the static site (using `npm install --legacy-peer-deps` inside

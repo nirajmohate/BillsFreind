@@ -15,7 +15,7 @@ export default function BlogPost() {
   if (!post) return <NotFound />;
 
   const toc = post.body.flatMap((b) => (b.t === "h2" ? [b] : []));
-  const more = otherPosts(post.slug, 2);
+  const more = otherPosts(post.slug, 4);
   const tools = post.relatedTools.map((id) => getPreset(id)).filter((p) => !!p).slice(0, 6);
 
   return (
@@ -107,8 +107,8 @@ export default function BlogPost() {
         </section>
       )}
 
-      <section aria-label="Follow BillsFriend" className="mt-10 rounded-2xl border border-border/80 bg-card p-5">
-        <p className="font-heading text-base font-bold">Follow BillsFriend</p>
+      <section aria-label="Follow BillsFreind" className="mt-10 rounded-2xl border border-border/80 bg-card p-5">
+        <p className="font-heading text-base font-bold">Follow BillsFreind</p>
         <p className="mt-1 text-sm text-muted-foreground">Short tutorials and new bill formats on Instagram and YouTube.</p>
         <SocialLinks showHandles className="mt-3" />
       </section>

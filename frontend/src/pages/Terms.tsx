@@ -15,10 +15,10 @@ export default function Terms() {
 
       <div className="mt-8 space-y-6 text-sm leading-relaxed text-muted-foreground">
         {[
-          ["Free, unlimited use", "Every BillsFriend generator is free for personal and commercial use, with no document limits, no sign-up and no watermarks."],
+          ["Free, unlimited use", "Every BillsFreind generator is free for personal and commercial use, with no document limits, no sign-up and no watermarks."],
           ["No warranty on tax compliance", "Documents are formatting tools. Output is generated from the data you enter; tax fields follow common Indian GST invoice conventions but do not constitute tax, legal or accounting advice. Verify with a qualified chartered accountant before filing."],
           ["Your content", "You own everything you create. We claim no license over your documents or business data. You are responsible for the accuracy of the details you enter."],
-          ["Acceptable use", "Don't use BillsFriend to create fraudulent, forged or misleading documents, and don't attempt to disrupt the service or scrape it abusively."],
+          ["Acceptable use", "Don't use BillsFreind to create fraudulent, forged or misleading documents, and don't attempt to disrupt the service or scrape it abusively."],
           ["Monetization disclosure", "The service is funded by advertising (which may include Google AdSense). Ads never gate or alter any generator feature."],
           ["Availability", "The tool is offered \"as is\". Because it is local-first, the generators keep working even if this website's servers are unreachable."],
         ].map(([h, p]) => (

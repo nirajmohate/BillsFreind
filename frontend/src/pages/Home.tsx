@@ -62,12 +62,12 @@ export default function Home() {
               <BadgeCheck className="size-3.5" /> 100% free · no sign-up · no watermark
             </p>
             <h1 className="mt-5 font-heading text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-              Bills &amp; invoices,
+              Free invoice &amp; bill generator,
               <br />
               done in under a minute.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {TOOL_PRESETS.length} professional document generators — GST tax invoices, receipts, challans,
+              {TOOL_PRESETS.length} free document generators — GST invoices, invoice bills, receipts, challans,
               quotations, payslips, electrician, plumber and mechanic bills. Live totals, GST split, amount in words, and a
               pixel-perfect A4 PDF. Your data never leaves your browser.
             </p>

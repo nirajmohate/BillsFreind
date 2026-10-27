@@ -31,13 +31,13 @@ try {
   const { SITE_URL, SITE_NAME, OG_IMAGE_PATH, OG_IMAGE_ALT } = await server.ssrLoadModule("/src/lib/site.ts");
   const { PAGE_META, toolJsonLd, homeJsonLd, toolFaqs, toolSteps, HOME_FAQS, withArticle, blogIndexJsonLd, postJsonLd } = seo;
   const blog = await server.ssrLoadModule("/src/lib/blog.ts");
-  const { BLOG_POSTS, BLOG_AUTHOR, bodyHtml, postPath, readingMinutes } = blog;
+  const { BLOG_POSTS, BLOG_AUTHOR, bodyHtml, postPath, readingMinutes, otherPosts } = blog;
 
   const template = await fs.readFile(path.join(dist, "index.html"), "utf8");
 
   // Preload the two fonts every page paints with (hashed names change per build).
   const assets = await fs.readdir(path.join(dist, "assets"));
-  const preload = ["plus-jakarta-sans-latin-wght-normal", "outfit-latin-wght-normal"]
+  const preload = ["plus-jakarta-sans-latin-wght-normal", "outfit-latin-wght-normal", "jetbrains-mono-latin-wght-normal"]
     .map((k) => assets.find((f) => f.startsWith(k) && f.endsWith(".woff2")))
     .filter(Boolean)
     .map((f) => `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin />`)
@@ -86,23 +86,23 @@ try {
     `<li><a href="/disclaimer">Disclaimer</a></li>`,
   ].join("");
 
+  // Crawlable static content. It is written INTO <div id="root"> (not just <noscript>) so crawlers
+  // that read raw HTML without running JavaScript — Bing's URL Inspection, social scrapers — see a real
+  // <h1>, text and links. React's createRoot() replaces it as soon as the app loads.
   function noscriptBlock({ h1, description, extra = "" }) {
-    return `<noscript>
-      <main>
+    return `<main data-prerender="1">
         <h1>${esc(h1)}</h1>
         <p>${esc(description)}</p>
         ${extra}
         <nav aria-label="All generators"><p>Free bill and invoice generators:</p><ul>${navLinks}</ul></nav>
-        <p>BillsFriend needs JavaScript to build bills in your browser. Please enable JavaScript.</p>
-      </main>
-    </noscript>`;
+      </main>`;
   }
 
-  function render(meta, noscript) {
+  function render(meta, content) {
     return template
       .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${esc(meta.title)}</title>`)
       .replace(/<!--seo-head-->[\s\S]*?<!--\/seo-head-->/, () => headBlock(meta))
-      .replace(/<!--seo-noscript-->[\s\S]*?<!--\/seo-noscript-->/, () => noscript);
+      .replace('<div id="root"></div>', () => `<div id="root">${content}</div>`);
   }
 
   async function write(route, html) {
@@ -118,7 +118,7 @@ try {
   await write("/", render(
     { ...home, jsonLd: homeJsonLd() },
     noscriptBlock({
-      h1: "Free GST invoice & bill generator",
+      h1: "Free invoice & bill generator, done in under a minute.",
       description: home.description,
       extra: `<h2>Frequently asked questions</h2>${HOME_FAQS.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join("")}`,
     }),
@@ -151,7 +151,7 @@ try {
   pages.push({ loc: bm.path, changefreq: bm.changefreq, priority: bm.priority, lastmod: BLOG_POSTS.map((p) => p.updated).sort().pop() });
   for (const p of BLOG_POSTS) {
     const meta = { title: p.seoTitle, description: p.description, path: postPath(p), ogType: "article", published: p.published, jsonLd: postJsonLd(p) };
-    const article = `<article>${bodyHtml(p)}<h2>Frequently asked questions</h2>${p.faqs.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join("")}<p>By ${esc(BLOG_AUTHOR)} · ${esc(p.published)} · ${readingMinutes(p)} min read</p></article>`;
+    const article = `<article>${bodyHtml(p)}<h2>Frequently asked questions</h2>${p.faqs.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join("")}<h2>Related guides</h2><ul>${otherPosts(p.slug, 4).map((o) => `<li><a href="${postPath(o)}">${esc(o.title)}</a></li>`).join("")}</ul><p>By ${esc(BLOG_AUTHOR)} · ${esc(p.published)} · ${readingMinutes(p)} min read</p></article>`;
     await write(meta.path, render(meta, noscriptBlock({ h1: p.title, description: p.excerpt, extra: article })));
     pages.push({ loc: meta.path, changefreq: "monthly", priority: 0.8, lastmod: p.updated });
   }
@@ -181,7 +181,7 @@ ${pages
 `;
 
   // robots.txt
-  const robots = `# BillsFriend — robots.txt
+  const robots = `# BillsFreind — robots.txt
 User-agent: *
 Allow: /
 Disallow: /dashboard
