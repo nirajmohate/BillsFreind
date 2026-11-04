@@ -9,7 +9,11 @@ const SECTIONS: Array<[string, string]> = [
   ],
   [
     "You are responsible for what you enter",
-    "Every document is generated from the details you type in. You are responsible for the accuracy and completeness of names, GSTIN and PAN numbers, HSN/SAC codes, tax rates, amounts and any other content, and for checking each document before you issue, send or file it. Sample data shown in the tools and in blog images is fictional.",
+    "When creating and generating any type of bill, please make sure to enter the correct details, such as your name, mobile number, GSTIN, and any other important information.
+
+Most importantly, BillsFreind.in does not collect or store your personal information. You are responsible for ensuring that all the details you enter are correct before generating a bill. If you enter incorrect details and generate a wrong bill, you will be solely responsible for it.
+
+BillsFreind.in advises you to generate bills using accurate information only and not to misuse any generated bills.",
   ],
   [
     "GST invoices and e-invoicing",
@@ -25,15 +29,19 @@ const SECTIONS: Array<[string, string]> = [
   ],
   [
     "Payments and UPI QR codes",
-    "BillsFreind does not process, hold or transfer money. A UPI QR code is generated on your device from the UPI ID you enter. Check the ID and the amount before sharing a QR code or relying on one, because we are not responsible for payments made to a wrong or mistyped UPI ID.",
+    "BillsFreind.in does not handle any UPI payments or money transactions. It simply provides a UPI QR Code Generator. You can fill in your details, most importantly your UPI ID, and generate your QR code.
+
+However, I want to clearly inform you that you must enter the correct details to generate an accurate QR code. If you enter incorrect details, you will be entirely responsible for them. BillsFreind.in is not responsible for any payments or money transactions. It only provides you with a QR code based on the UPI details you enter.",
   ],
   [
     "Your data and backups",
-    "Documents and business details are stored only in your own browser. They can be lost if you clear your browser data, switch devices or use private browsing, and we cannot recover them. Download a PDF or export JSON for anything you need to keep.",
+    "Most importantly, this website offers a high level of security. There is no login or sign-up required, and your data is not stored in any database. When you generate bills, you have a save option, but those bills are saved only on your local device. If you open the same website on another device, your saved items and bills will not appear there because they are stored only in your local storage.
+
+Since there is no login or sign-up option, you don't need to waste your time creating an account. You can quickly generate bills and download them in PDF format whenever you want.",
   ],
   [
     "Advertising and external links",
-    "This website may show advertising from third parties, such as Google AdSense. Ads and links to external sites, including our Instagram and YouTube pages, are provided for convenience and are not an endorsement. We do not control third-party content or their privacy practices.",
+    "This website sometimes displays short advertisements through Google AdSense. However, it does not host any third-party advertising links for promotional purposes. The website may also contain external links to our social media platforms, such as YouTube and other social media handles.",
   ],
   [
     "Limitation of liability",
