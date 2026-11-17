@@ -50,7 +50,7 @@ export const BLOG_POSTS: BlogPost[] = [
     body: [
       {
         t: "p",
-        text: "Most AC jobs end the same way: the technician is paid in cash, maybe writes a number on a scrap of paper, and leaves. Two weeks later the AC is not cooling again, the customer says “you only just fixed it”, and nobody can say what was actually done. A proper bill settles that argument before it starts. It also gives the customer something to show a housing society, landlord or office accounts team.",
+        text: "Actually, in most AC repair jobs, you simply repair the AC and give the customer a paper bill, which means writing the details on paper and handing it over as a bill. But this is not the best way to improve customer satisfaction and build customer trust. For that, you need to be professional in your services and business. Just visit BillsFreind.in, select the AC Repairing option, fill in your details and the customer's details, and create and generate a simple bill within 2 minutes. You can download that bill in PDF format and send it to your customer. This creates more customer satisfaction and helps build trust. If you provide good service and a professional bill, the customer will definitely consider calling you again whenever they need your services. Providing professional bills is very important, and the best part is that it's 100% free!",
       },
       { t: "h2", id: "what-goes-on-it", text: "What an AC repair bill needs to show" },
       {
@@ -217,7 +217,7 @@ export const BLOG_POSTS: BlogPost[] = [
       { t: "h2", id: "contracts", text: "Billing a monthly housekeeping contract" },
       {
         t: "p",
-        text: "For a regular client, keep the bill short but specific: the billing period (for example 1 to 30 November), the number of cleaners, working days, the monthly rate per person and any extras like consumables. If attendance changes, show the days actually worked rather than a round number, so the client can match your bill against their own records.",
+        text: "Cleaning is one of the most important services in metro cities, and providing bills for these services is one of the best ways to maintain professionalism. Sometimes, customers may not understand what they are paying for, why they are being charged a particular amount, or what services you have provided. For that, you just need to provide a professional bill to your customer. It is one of the most professional practices in housekeeping and cleaning services. It helps customers understand the services provided and the amount charged, making your business look more professional and valuable.",
       },
       { t: "h2", id: "gst", text: "GST on cleaning services" },
       {
@@ -276,7 +276,7 @@ export const BLOG_POSTS: BlogPost[] = [
     body: [
       {
         t: "p",
-        text: "When you are an independent plumber there is no accounts department. You fix the leak, you buy the fittings, you chase the payment. A clear invoice is the closest thing you have to a back office, and it is mostly about three things: saying what you charged for, making fittings visible, and stating the warranty before anyone has to ask.",
+        text: "Plumbing is one of the most valuable services you can provide to customers. For example, when you fix taps, fit pipes, or repair kitchen leakage problems, you need to manage your work and payments properly. If you are the only owner and worker, it can become complicated to manage your accounts and amounts. For that, you can generate bills using BillsFreind.in. It is completely 100% free and easy to access. This helps you maintain professionalism in your business, improve your services, and increase customer satisfaction.",
       },
       { t: "h2", id: "charges", text: "Decide how you charge, then show it the same way every time" },
       {
