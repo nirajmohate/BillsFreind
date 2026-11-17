@@ -81,7 +81,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "gst-invoice", layout: "invoice", name: "GST Tax Invoice", docTitle: "TAX INVOICE", category: "business", badge: "B2B / B2C",
     description: "GST-compliant invoice with HSN/SAC codes, CGST/SGST/IGST breakdown, place of supply and reverse-charge note.",
-    seoTitle: "Free GST Invoice Generator Online (PDF) | BillsFriend",
+    seoTitle: "Free GST Invoice Generator Online (PDF) | BillsFreind",
     seoDescription: "Create a GST tax invoice with HSN/SAC codes, CGST/SGST/IGST split, place of supply and amount in words. Free, no sign-up, instant A4 PDF.",
     accent: "#0F172A", taxMode: "gst", amountMode: "items", numberPrefix: "INV", numberLabel: "Invoice No.",
     fromLabel: "Supplier Details", toLabel: "Bill To", amountLabel: "Invoice Amount", itemLabel: "Description of Goods / Services",
@@ -91,7 +91,9 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "general-bill", layout: "cashmemo", name: "General Bill / Cash Memo", docTitle: "BILL / CASH MEMO", category: "business", badge: "Universal",
     description: "Clean modern retail bill with itemized quantities, unit rates, discount and a signature line.",
-    seoTitle: "Free Bill & Cash Memo Generator Online | BillsFriend",
+
+    seoTitle: "Free Bill Generator Online: Bill & Cash Memo | BillsFreind",
+
     seoDescription: "Make a printable bill or cash memo with itemised quantities, rates, discount and signature line. Free, no sign-up, no watermark, instant PDF.",
     accent: "#0284C7", taxMode: "none", amountMode: "items", numberPrefix: "BILL", numberLabel: "Bill No.",
     fromLabel: "Billed By", toLabel: "Bill To", amountLabel: "Bill Amount", itemLabel: "Description",
@@ -100,7 +102,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "payment-receipt", layout: "receipt", name: "Payment Receipt", docTitle: "PAYMENT RECEIPT", category: "financial", badge: "Voucher",
     description: "Formal proof of payment received via Cash / UPI / NEFT / Cheque, with transaction reference and balance due.",
-    seoTitle: "Free Payment Receipt Generator Online | BillsFriend",
+    seoTitle: "Free Payment Receipt Generator Online | BillsFreind",
     seoDescription: "Generate a payment receipt with amount in words, payment mode, transaction reference and balance due. Free, no sign-up, instant PDF download.",
     accent: "#16A34A", taxMode: "none", amountMode: "single", numberPrefix: "RCPT", numberLabel: "Receipt No.",
     fromLabel: "Received By", toLabel: "Received From", amountLabel: "Amount Received", itemLabel: "Description",
@@ -110,7 +112,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "quotation-estimate", layout: "invoice", name: "Quotation & Estimate", docTitle: "QUOTATION / ESTIMATE", category: "business", badge: "Commercial",
     description: "Formal project quotation with validity period, itemized pricing and an acceptance sign-off block.",
-    seoTitle: "Free Quotation & Estimate Maker Online | BillsFriend",
+    seoTitle: "Free Quotation & Estimate Maker Online | BillsFreind",
     seoDescription: "Build a professional quotation or estimate with itemised pricing, GST, validity period and terms. Free, no sign-up, instant PDF download.",
     accent: "#4F46E5", taxMode: "gst", amountMode: "items", numberPrefix: "QT", numberLabel: "Quotation No.",
     fromLabel: "Quotation By", toLabel: "Quotation For", amountLabel: "Quoted Amount", itemLabel: "Scope / Item",
@@ -120,7 +122,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "purchase-order", layout: "invoice", name: "Purchase Order (PO)", docTitle: "PURCHASE ORDER", category: "procurement", badge: "Supply Chain",
     description: "Official vendor purchase order with delivery terms, shipping method and authorized signatory block.",
-    seoTitle: "Free Purchase Order (PO) Generator | BillsFriend",
+    seoTitle: "Free Purchase Order (PO) Generator | BillsFreind",
     seoDescription: "Create a purchase order with vendor details, HSN codes, delivery terms and authorised signatory. Free, no sign-up, instant A4 PDF.",
     accent: "#0D9488", taxMode: "gst", amountMode: "items", numberPrefix: "PO", numberLabel: "P.O. No.",
     fromLabel: "Ordered By", toLabel: "Vendor / Supplier", amountLabel: "Order Value", itemLabel: "Item / Material",
@@ -130,7 +132,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "delivery-challan", layout: "challan", name: "Delivery Challan", docTitle: "DELIVERY CHALLAN", category: "logistics", badge: "Dispatch",
     description: "Goods dispatch note with vehicle registration, driver contact, dispatch details and receiver stamp box.",
-    seoTitle: "Free Delivery Challan Generator Online | BillsFriend",
+    seoTitle: "Free Delivery Challan Generator Online | BillsFreind",
     seoDescription: "Make a delivery challan with vehicle number, dispatch details and receiver's signature box. Free, no sign-up, print-ready A4 PDF.",
     accent: "#EA580C", taxMode: "none", amountMode: "items", numberPrefix: "CH", numberLabel: "Challan No.",
     fromLabel: "Dispatch By", toLabel: "Deliver To", amountLabel: "Goods Value", itemLabel: "Goods Description",
@@ -140,7 +142,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "rent-receipt", layout: "receipt", name: "House Rent Receipt", docTitle: "RENT RECEIPT", category: "personal_tax", badge: "HRA Exemption",
     description: "Month-wise house rent receipt for income-tax (HRA) claims with landlord PAN and property address.",
-    seoTitle: "Free Rent Receipt Generator for HRA | BillsFriend",
+    seoTitle: "Free Rent Receipt Generator for HRA | BillsFreind",
     seoDescription: "Create month-wise house rent receipts for HRA tax claims with landlord PAN and revenue stamp box. Free, no sign-up, instant PDF.",
     accent: "#B45309", taxMode: "none", amountMode: "single", numberPrefix: "RENT", numberLabel: "Receipt No.",
     fromLabel: "Landlord", toLabel: "Tenant", amountLabel: "Rent Received", itemLabel: "Description",
@@ -150,7 +152,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "salary-slip", layout: "payslip", name: "Salary Slip / Payslip", docTitle: "SALARY SLIP", category: "hr_payroll", badge: "HR & Payroll",
     description: "Monthly pay summary with Earnings vs Deductions, net payable in words and employer signature.",
-    seoTitle: "Free Salary Slip Generator Online (PDF) | BillsFriend",
+    seoTitle: "Free Salary Slip Generator Online (PDF) | BillsFreind",
     seoDescription: "Generate a salary slip with earnings, deductions, net pay in words and employer signature. Free, no sign-up, no watermark, instant PDF.",
     accent: "#2563EB", taxMode: "none", amountMode: "items", numberPrefix: "PAY", numberLabel: "Payslip No.",
     fromLabel: "Employer", toLabel: "Employee", amountLabel: "Net Payable", itemLabel: "Earnings (+) / Deductions (−)",
@@ -160,7 +162,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "driver-salary", layout: "receipt", name: "Driver Salary Receipt", docTitle: "DRIVER SALARY RECEIPT", category: "personal_tax", badge: "Perk Exemption",
     description: "Income-tax claim receipt for driver compensation with vehicle registration number and declaration.",
-    seoTitle: "Free Driver Salary Receipt Generator | BillsFriend",
+    seoTitle: "Free Driver Salary Receipt Generator | BillsFreind",
     seoDescription: "Create a driver salary receipt with vehicle number and declaration for income-tax perquisite claims. Free, no sign-up, instant PDF.",
     accent: "#7C3AED", taxMode: "none", amountMode: "single", numberPrefix: "DSR", numberLabel: "Receipt No.",
     fromLabel: "Employer", toLabel: "Driver", amountLabel: "Salary Paid", itemLabel: "Description",
@@ -170,7 +172,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "fuel-bill", layout: "fuel", name: "Fuel / Petrol Receipt", docTitle: "FUEL RECEIPT", category: "reimbursement", badge: "Expense",
     description: "Fuel-station format receipt with fuel type, nozzle number, vehicle number and meter reading (rate inclusive of VAT).",
-    seoTitle: "Free Petrol & Diesel Bill Generator | BillsFriend",
+    seoTitle: "Free Petrol & Diesel Bill Generator | BillsFreind",
     seoDescription: "Make a petrol or diesel fuel receipt with nozzle, vehicle number and odometer reading for reimbursement. Free, no sign-up, instant PDF.",
     accent: "#D97706", taxMode: "none", amountMode: "items", numberPrefix: "FUEL", numberLabel: "Bill No.",
     fromLabel: "Fuel Station", toLabel: "Customer", amountLabel: "Total Fuel Amount", itemLabel: "Fuel Type / Grade",
@@ -180,7 +182,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "restaurant-bill", layout: "cashmemo", name: "Restaurant Bill", docTitle: "RESTAURANT BILL", category: "reimbursement", badge: "F&B",
     description: "Dine-in / takeaway food bill with table number, steward name, service charge and FSSAI number.",
-    seoTitle: "Free Restaurant Bill Generator Online | BillsFriend",
+    seoTitle: "Free Restaurant Bill Generator Online | BillsFreind",
     seoDescription: "Create a restaurant bill with table number, GST, steward name and FSSAI licence number. Free, no sign-up, no watermark, instant PDF.",
     accent: "#DC2626", taxMode: "gst", amountMode: "items", numberPrefix: "FNB", numberLabel: "Bill No.",
     fromLabel: "Restaurant", toLabel: "Guest", amountLabel: "Bill Amount", itemLabel: "Cuisine / Item",
@@ -190,7 +192,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "hotel-stay-bill", layout: "invoice", name: "Hotel Stay Bill", docTitle: "HOTEL FOLIO / BILL", category: "travel", badge: "Hospitality",
     description: "Lodging folio with check-in / check-out dates, room category, guest details and taxes.",
-    seoTitle: "Free Hotel Bill & Folio Generator | BillsFriend",
+    seoTitle: "Free Hotel Bill & Folio Generator | BillsFreind",
     seoDescription: "Generate a hotel stay folio with check-in and check-out dates, room category and GST breakup. Free, no sign-up, instant PDF download.",
     accent: "#0891B2", taxMode: "gst", amountMode: "items", numberPrefix: "HTL", numberLabel: "Folio No.",
     fromLabel: "Hotel", toLabel: "Guest", amountLabel: "Total Tariff", itemLabel: "Room / Service",
@@ -200,7 +202,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "cab-trip-receipt", layout: "invoice", name: "Cab / Taxi Receipt", docTitle: "CAB / TAXI RECEIPT", category: "travel", badge: "Commute",
     description: "Trip summary with pickup / drop locations, distance, toll charges, waiting time and vehicle model.",
-    seoTitle: "Free Cab & Taxi Receipt Generator | BillsFriend",
+    seoTitle: "Free Cab & Taxi Receipt Generator | BillsFreind",
     seoDescription: "Create a cab or taxi receipt with pickup, drop, distance, toll and waiting charges. Free, no sign-up, instant PDF for reimbursement.",
     accent: "#65A30D", taxMode: "gst", amountMode: "items", numberPrefix: "CAB", numberLabel: "Receipt No.",
     fromLabel: "Cab Operator", toLabel: "Passenger", amountLabel: "Fare Total", itemLabel: "Charge Head",
@@ -210,7 +212,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "wifi-internet-bill", layout: "invoice", name: "Internet / Broadband Bill", docTitle: "INTERNET / BROADBAND BILL", category: "reimbursement", badge: "Utility",
     description: "Broadband billing invoice with plan speed, billing cycle, data quota and account number.",
-    seoTitle: "Free Internet & Broadband Bill Generator | BillsFriend",
+    seoTitle: "Free Internet & Broadband Bill Generator | BillsFreind",
     seoDescription: "Make an internet or broadband bill with plan speed, billing cycle, data quota and account number. Free, no sign-up, instant PDF.",
     accent: "#0284C7", taxMode: "gst", amountMode: "items", numberPrefix: "NET", numberLabel: "Invoice No.",
     fromLabel: "ISP / Provider", toLabel: "Subscriber", amountLabel: "Amount Payable", itemLabel: "Plan / Charge",
@@ -220,7 +222,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "medical-pharmacy-bill", layout: "cashmemo", name: "Medical / Pharmacy Bill", docTitle: "PHARMACY BILL", category: "health_insurance", badge: "Health Claim",
     description: "Pharmacy cash memo with doctor name, patient details, medicine batch numbers and drug license.",
-    seoTitle: "Free Medical & Pharmacy Bill Generator | BillsFriend",
+    seoTitle: "Free Medical & Pharmacy Bill Generator | BillsFreind",
     seoDescription: "Create a pharmacy bill with doctor, patient, batch and expiry details and drug licence number. Free, no sign-up, instant PDF download.",
     accent: "#059669", taxMode: "gst", amountMode: "items", numberPrefix: "MED", numberLabel: "Bill No.",
     fromLabel: "Pharmacy / Hospital", toLabel: "Patient", amountLabel: "Medicine Total", itemLabel: "Medicine / Item",
@@ -230,7 +232,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "electrician-bill", layout: "service", name: "Electrician Bill", docTitle: "ELECTRICIAN BILL", category: "services", badge: "Home Service",
     description: "Job bill for wiring, repairs and installations — separate material and labour charges, site address, warranty and optional GST.",
-    seoTitle: "Free Electrician Bill Format & Generator | BillsFriend",
+    seoTitle: "Free Electrician Bill Format & Generator | BillsFreind",
     seoDescription: "Make an electrician bill with material and labour charges, site address, warranty and optional GST. Free, no sign-up, instant A4 PDF.",
     accent: "#A16207", taxMode: "gst", gstOptional: true, amountMode: "items", numberPrefix: "ELC", numberLabel: "Bill No.",
     fromLabel: "Electrician / Contractor", toLabel: "Customer", amountLabel: "Total Payable", itemLabel: "Work / Material Description",
@@ -241,7 +243,7 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "plumber-bill", layout: "service", name: "Plumber Bill", docTitle: "PLUMBER BILL", category: "services", badge: "Home Service",
     description: "Job bill for plumbing, leakage repair and fittings — material and labour charges, site address, warranty and optional GST.",
-    seoTitle: "Free Plumber Bill Format & Generator | BillsFriend",
+    seoTitle: "Free Plumber Bill Format & Generator | BillsFreind",
     seoDescription: "Create a plumber bill with fittings, labour charges, site address, warranty and optional GST. Free, no sign-up, instant A4 PDF download.",
     accent: "#0E7490", taxMode: "gst", gstOptional: true, amountMode: "items", numberPrefix: "PLB", numberLabel: "Bill No.",
     fromLabel: "Plumber / Contractor", toLabel: "Customer", amountLabel: "Total Payable", itemLabel: "Work / Material Description",
@@ -252,13 +254,35 @@ export const TOOL_PRESETS: ToolPreset[] = [
   {
     id: "mechanic-bill", layout: "service", name: "Mechanic / Garage Bill", docTitle: "SERVICE INVOICE", category: "services", badge: "Vehicle Service",
     description: "Garage job-card invoice with vehicle number, model, odometer, spare parts and labour charges, next service due and optional GST.",
-    seoTitle: "Free Mechanic & Garage Bill Generator | BillsFriend",
+    seoTitle: "Free Mechanic & Garage Bill Generator | BillsFreind",
     seoDescription: "Make a garage or mechanic bill with vehicle number, spare parts, labour, next service due and GST. Free, no sign-up, instant PDF.",
     accent: "#9A3412", taxMode: "gst", gstOptional: true, amountMode: "items", numberPrefix: "GRG", numberLabel: "Invoice No.",
     fromLabel: "Garage / Workshop", toLabel: "Customer", amountLabel: "Total Payable", itemLabel: "Part / Service Description",
     qtyLabel: "Qty", rateLabel: "Rate", showHsn: true,
     itemKinds: [{ id: "part", label: "Spare Parts" }, { id: "labour", label: "Labour / Service Charges" }],
     extraFields: [E("vehicleNumber", "Vehicle Number"), E("vehicleModel", "Vehicle Make / Model"), E("odometer", "Odometer (km)", "number"), E("jobCardNo", "Job Card No."), E("nextService", "Next Service Due"), E("warrantyPeriod", "Warranty on Work")],
+  },
+  {
+    id: "ac-repair-bill", layout: "service", name: "AC Repair Service Bill", docTitle: "AC SERVICE BILL", category: "services", badge: "Home Service",
+    description: "Bill for AC servicing, gas refill, repair and installation — spare parts and labour shown separately, AC details, site address, warranty and optional GST.",
+    seoTitle: "Free AC Repair Bill Format & Generator | BillsFreind",
+    seoDescription: "Make an AC repair or service bill with spare parts, gas refill, labour, AC model, warranty and optional GST. Free, no sign-up, instant A4 PDF.",
+    accent: "#0369A1", taxMode: "gst", gstOptional: true, amountMode: "items", numberPrefix: "ACR", numberLabel: "Bill No.",
+    fromLabel: "Service Provider", toLabel: "Customer", amountLabel: "Total Payable", itemLabel: "Part / Service Description",
+    qtyLabel: "Qty", rateLabel: "Rate", showHsn: false,
+    itemKinds: [{ id: "part", label: "Spare Parts / Gas" }, { id: "labour", label: "Service / Labour Charges" }],
+    extraFields: [E("siteAddress", "Site / Job Address"), E("acDetails", "AC Make / Type / Capacity", "text", "Split · 1.5 Ton · 3 Star"), E("serviceType", "Type of Service", "text", "Servicing / Gas refill / Repair / Installation"), E("technician", "Technician Name"), E("warrantyPeriod", "Warranty on Work / Parts")],
+  },
+  {
+    id: "cleaning-bill", layout: "service", name: "Cleaning Service Bill", docTitle: "CLEANING SERVICE BILL", category: "services", badge: "Home Service",
+    description: "Bill for home, office, sofa, bathroom or kitchen cleaning — service and material charges, area cleaned, service date and optional GST.",
+    seoTitle: "Free Cleaning Service Bill Format & Generator | BillsFreind",
+    seoDescription: "Make a cleaning service bill for deep cleaning, sofa, bathroom or office cleaning with area, service date and optional GST. Free, no sign-up, instant PDF.",
+    accent: "#0F766E", taxMode: "gst", gstOptional: true, amountMode: "items", numberPrefix: "CLN", numberLabel: "Bill No.",
+    fromLabel: "Cleaning Service", toLabel: "Customer", amountLabel: "Total Payable", itemLabel: "Service / Material Description",
+    qtyLabel: "Qty", rateLabel: "Rate", showHsn: false,
+    itemKinds: [{ id: "part", label: "Materials / Consumables" }, { id: "labour", label: "Service Charges" }],
+    extraFields: [E("siteAddress", "Site Address"), E("serviceType", "Type of Cleaning", "text", "Deep clean / Sofa / Bathroom / Office"), E("areaSize", "Area / Size", "text", "2 BHK · 1,100 sq ft"), E("serviceDate", "Service Date", "date"), E("technician", "Team Lead / Cleaner"), E("warrantyPeriod", "Re-clean Guarantee")],
   },
 ];
 
@@ -459,6 +483,34 @@ export function sampleDoc(preset: ToolPreset): DocData {
       base.taxMode = "intra";
       base.extra = { vehicleNumber: "MH 15 FK 2214", vehicleModel: "Maruti Swift VXi", odometer: "48,210", jobCardNo: "JC-1187", nextService: "At 53,000 km or 6 months", warrantyPeriod: "30 days on labour" };
       base.notes = "Replaced parts handed over to customer on request.";
+      break;
+    case "ac-repair-bill":
+      base.business = { ...SAMPLE_BUSINESS, name: "Cool Care AC Services", address: "Shop 9, Kothrud,\nPune, Maharashtra 411038", phone: "+91 98220 55120", email: "", gstin: "", pan: "", upiId: "" };
+      base.client = { ...base.client, name: "Mr. Anil Joshi", address: "A-402, Rajwada Apartments,\nKarve Road, Pune 411004", phone: "+91 98900 22117", gstin: "", pan: "", email: "" };
+      base.items = items([
+        ["Running capacitor 35 µF (replaced)", "", 1, "NOS", 450, 0],
+        ["R32 gas top-up", "", 1, "JOB", 1800, 0],
+        ["Split AC jet-wash service (indoor + outdoor)", "", 1, "UNIT", 700, 0],
+        ["Visit & diagnosis charges", "", 1, "VISIT", 250, 0],
+      ]);
+      base.items[0].kind = "part"; base.items[1].kind = "part";
+      base.items[2].kind = "labour"; base.items[3].kind = "labour";
+      base.extra = { siteAddress: "A-402, Rajwada Apartments, Karve Road, Pune", acDetails: "Split · 1.5 Ton · 3 Star", serviceType: "Servicing + gas top-up + capacitor", technician: "Imran Shaikh", warrantyPeriod: "30 days on gas and service, 3 months on capacitor" };
+      base.notes = "Gas pressure checked after top-up. Please report any cooling issue within the warranty period.";
+      break;
+    case "cleaning-bill":
+      base.business = { ...SAMPLE_BUSINESS, name: "Fresh Nest Cleaning Services", address: "Office 3, Baner Road,\nPune, Maharashtra 411045", phone: "+91 97300 66241", email: "", gstin: "", pan: "", upiId: "" };
+      base.client = { ...base.client, name: "Ms. Neha Kulkarni", address: "Flat 12, Greenview Residency,\nAundh, Pune 411007", phone: "+91 98230 77412", gstin: "", pan: "", email: "" };
+      base.items = items([
+        ["Deep cleaning — 2 BHK (kitchen, 2 bathrooms, floors)", "", 1, "JOB", 4200, 0],
+        ["3-seater sofa shampooing", "", 1, "NOS", 700, 0],
+        ["Balcony & window-grill cleaning", "", 1, "JOB", 500, 0],
+        ["Cleaning chemicals & consumables", "", 1, "SET", 350, 0],
+      ]);
+      base.items[0].kind = "labour"; base.items[1].kind = "labour"; base.items[2].kind = "labour";
+      base.items[3].kind = "part";
+      base.extra = { siteAddress: "Flat 12, Greenview Residency, Aundh, Pune", serviceType: "Deep cleaning + sofa shampooing", areaSize: "2 BHK · about 1,000 sq ft", serviceDate: todayISO(), technician: "Team of 3 — lead: Sunita", warrantyPeriod: "Free re-clean of missed spots within 48 hours" };
+      base.notes = "Please inspect the work before the team leaves. Payment due on completion.";
       break;
   }
   return base;

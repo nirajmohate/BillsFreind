@@ -11,7 +11,7 @@ const CONTACT_EMAIL = "mohateniraj@gmail.com";
 const FAQS = [
   { q: "Can you add a document type I need?", a: "Very likely — most generators are presets of the same engine. Email the format and fields you need and it'll be considered for the next release." },
   { q: "I found a calculation bug", a: "Please include the document type, the numbers you entered and what you expected. GST math bugs get fixed first." },
-  { q: "Do you offer bulk/API generation?", a: "Not yet — BillsFriend is intentionally server-free for privacy. Sign up for nothing, wait for nothing." },
+  { q: "Do you offer bulk/API generation?", a: "Not yet — BillsFreind is intentionally server-free for privacy. Sign up for nothing, wait for nothing." },
 ];
 
 export default function Contact() {
@@ -28,7 +28,7 @@ export default function Contact() {
     }
   };
 
-  const mailtoHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("BillsFriend — ")}`;
+  const mailtoHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("BillsFreind — ")}`;
 
   return (
     <main className="mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-6">

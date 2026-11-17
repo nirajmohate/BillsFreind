@@ -1,6 +1,6 @@
-# BillsFriend — Deployment Guide
+# BillsFreind — Deployment Guide
 
-BillsFriend is a 100% static site. There is no backend, no database, and no
+BillsFreind is a 100% static site. There is no backend, no database, and no
 server-side code to deploy or maintain — just build and host the frontend.
 
 ## Any static host (recommended)
@@ -27,8 +27,8 @@ automatically; for Nginx see `frontend/nginx.conf`.
 
 ```bash
 cd frontend
-docker build -t billsfriend .
-docker run -d -p 3000:80 billsfriend
+docker build -t billsfreind .
+docker run -d -p 3000:80 billsfreind
 ```
 
 Open http://localhost:3000. The image is just Nginx serving the built static

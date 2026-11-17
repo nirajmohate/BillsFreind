@@ -62,12 +62,12 @@ export default function Home() {
               <BadgeCheck className="size-3.5" /> 100% free · no sign-up · no watermark
             </p>
             <h1 className="mt-5 font-heading text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-              Bills &amp; invoices,
+              Free invoice &amp; bill generator,
               <br />
               done in under a minute.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {TOOL_PRESETS.length} professional document generators — GST tax invoices, receipts, challans,
+              {TOOL_PRESETS.length} free document generators — GST invoices, invoice bills, receipts, challans,
               quotations, payslips, electrician, plumber and mechanic bills. Live totals, GST split, amount in words, and a
               pixel-perfect A4 PDF. Your data never leaves your browser.
             </p>
@@ -177,7 +177,7 @@ export default function Home() {
         </div>
         <div className="mt-8 flex flex-wrap gap-2 text-xs text-muted-foreground">
           <span className="font-medium">Popular:</span>
-          {["gst-invoice", "general-bill", "rent-receipt", "salary-slip", "electrician-bill", "plumber-bill", "mechanic-bill", "payment-receipt"].map((id) => {
+          {["gst-invoice", "general-bill", "rent-receipt", "salary-slip", "electrician-bill", "plumber-bill", "ac-repair-bill", "mechanic-bill", "payment-receipt"].map((id) => {
             const p = TOOL_PRESETS.find((t) => t.id === id)!;
             return (
               <Link key={id} to={`/${id}`} className="rounded-full border border-border/80 px-3 py-1 transition-colors hover:bg-accent hover:text-accent-foreground">

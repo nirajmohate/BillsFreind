@@ -43,7 +43,7 @@ export default function Blog() {
         ))}
       </ul>
 
-      <section className="mt-14 rounded-2xl border border-border/80 bg-card p-6" aria-label="Follow BillsFriend">
+      <section className="mt-14 rounded-2xl border border-border/80 bg-card p-6" aria-label="Follow BillsFreind">
         <h2 className="font-heading text-lg font-bold">Want more tips and tutorials?</h2>
         <p className="mt-1 text-sm text-muted-foreground">Follow us on Instagram and YouTube for short how-tos and new bill formats.</p>
         <SocialLinks showHandles className="mt-3" />

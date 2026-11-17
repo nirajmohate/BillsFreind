@@ -18,7 +18,7 @@ export default function About() {
 
       <div className="mt-8 space-y-6 text-base leading-relaxed text-muted-foreground">
         <p>
-          BillsFriend exists because small businesses, freelancers and families shouldn't need
+          BillsFreind exists because small businesses, freelancers and families shouldn't need
           paid accounting software to produce a clean, professional bill. Every generator on
           this site — {TOOL_PRESETS.length} of them — is free forever, with no sign-up and no
           watermark.

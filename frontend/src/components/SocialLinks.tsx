@@ -6,7 +6,7 @@ const ICONS = { instagram: Instagram, youtube: Youtube } as const;
 /** Instagram + YouTube links. `showHandles` prints @handle next to each icon. */
 export function SocialLinks({ showHandles = false, className = "" }: { showHandles?: boolean; className?: string }) {
   return (
-    <ul className={`flex flex-wrap items-center gap-2 ${className}`} aria-label="BillsFriend on social media">
+    <ul className={`flex flex-wrap items-center gap-2 ${className}`} aria-label="BillsFreind on social media">
       {SOCIAL_LINKS.map((s) => {
         const Icon = ICONS[s.id];
         return (

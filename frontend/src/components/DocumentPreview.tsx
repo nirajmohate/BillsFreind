@@ -273,7 +273,7 @@ function SwissDoc({ data, preset, totals }: { data: DocData; preset: ToolPreset;
       </div>
 
       <p className="mt-6 border-t border-slate-100 pt-2 text-center font-mono text-[8px] uppercase tracking-[0.25em] text-slate-400">
-        Generated free with BillsFriend — bill generator
+        Generated free with BillsFreind — bill generator
       </p>
     </div>
   );
@@ -375,7 +375,7 @@ function ExecutiveDoc({ data, preset, totals, qrSrc }: { data: DocData; preset: 
         </div>
 
         <p className="mt-6 border-t border-slate-100 pt-2 text-center font-mono text-[8px] uppercase tracking-[0.25em] text-slate-400">
-          Generated free with BillsFriend — {currencySymbol(data.currency)} bills &amp; invoices
+          Generated free with BillsFreind — {currencySymbol(data.currency)} bills &amp; invoices
         </p>
       </div>
     </div>

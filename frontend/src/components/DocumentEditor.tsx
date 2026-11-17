@@ -214,7 +214,7 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
   };
 
   const handleDownloadJSON = () => {
-    const blob = new Blob([JSON.stringify({ generator: "BillsFriend", preset: preset.id, document: data }, null, 2)], {
+    const blob = new Blob([JSON.stringify({ generator: "BillsFreind", preset: preset.id, document: data }, null, 2)], {
       type: "application/json",
     });
     const url = URL.createObjectURL(blob);
@@ -504,7 +504,7 @@ export function DocumentEditor({ preset, docId }: { preset: ToolPreset; docId?: 
                             <SelectValue>{(v: string) => `GST ${v}%`}</SelectValue>
                           </SelectTrigger>
                           <SelectContent>
-                            {[0, 0.25, 3, 5, 12, 18, 28].map((r) => (
+                            {[0, 0.25, 3, 5, 12, 18, 28, 40].map((r) => (
                               <SelectItem key={r} value={String(r)}>{r}%</SelectItem>
                             ))}
                           </SelectContent>

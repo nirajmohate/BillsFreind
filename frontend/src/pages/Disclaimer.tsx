@@ -5,19 +5,23 @@ import { PAGE_META } from "@/lib/seo";
 const SECTIONS: Array<[string, string]> = [
   [
     "Not tax, legal or accounting advice",
-    "BillsFriend is a document-formatting tool and its blog is general information. Nothing on this website — including the GST invoice generator, sample data and articles — is tax, legal, financial or accounting advice. Rules, rates and thresholds change, so confirm anything that affects your filings or compliance with a qualified chartered accountant or other professional.",
+    "BillsFreind is a document-formatting tool and its blog is general information. Nothing on this website — including the GST invoice generator, sample data and articles — is tax, legal, financial or accounting advice. Rules, rates and thresholds change, so confirm anything that affects your filings or compliance with a qualified chartered accountant or other professional.",
   ],
   [
     "You are responsible for what you enter",
-    "Every document is generated from the details you type in. You are responsible for the accuracy and completeness of names, GSTIN and PAN numbers, HSN/SAC codes, tax rates, amounts and any other content, and for checking each document before you issue, send or file it. Sample data shown in the tools and in blog images is fictional.",
+    `When creating and generating any type of bill, please make sure to enter the correct details, such as your name, mobile number, GSTIN, and any other important information.
+
+Most importantly, BillsFreind.in does not collect or store your personal information. You are responsible for ensuring that all the details you enter are correct before generating a bill. If you enter incorrect details and generate a wrong bill, you will be solely responsible for it.
+
+BillsFreind.in advises you to generate bills using accurate information only and not to misuse any generated bills.`,
   ],
   [
     "GST invoices and e-invoicing",
-    "The GST invoice format follows common Indian invoicing conventions, but we do not guarantee that a document meets every requirement of the CGST Act, the CGST Rules or any state law for your particular business. BillsFriend does not connect to the government's Invoice Registration Portal and does not generate an IRN or e-invoice QR code. If your business is required to issue e-invoices, you must generate them through the government system.",
+    "The GST invoice format follows common Indian invoicing conventions, but we do not guarantee that a document meets every requirement of the CGST Act, the CGST Rules or any state law for your particular business. BillsFreind does not connect to the government's Invoice Registration Portal and does not generate an IRN or e-invoice QR code. If your business is required to issue e-invoices, you must generate them through the government system.",
   ],
   [
     "Not affiliated with any authority",
-    "BillsFriend is an independent project. It is not affiliated with, endorsed by or approved by the GST Council, the Central Board of Indirect Taxes and Customs (CBIC), the Income Tax Department, the Government of India, or any bank, UPI app or payment provider mentioned on this site.",
+    "BillsFreind is an independent project. It is not affiliated with, endorsed by or approved by the GST Council, the Central Board of Indirect Taxes and Customs (CBIC), the Income Tax Department, the Government of India, or any bank, UPI app or payment provider mentioned on this site.",
   ],
   [
     "Accuracy of information",
@@ -25,19 +29,23 @@ const SECTIONS: Array<[string, string]> = [
   ],
   [
     "Payments and UPI QR codes",
-    "BillsFriend does not process, hold or transfer money. A UPI QR code is generated on your device from the UPI ID you enter. Check the ID and the amount before sharing a QR code or relying on one, because we are not responsible for payments made to a wrong or mistyped UPI ID.",
+    `BillsFreind.in does not handle any UPI payments or money transactions. It simply provides a UPI QR Code Generator. You can fill in your details, most importantly your UPI ID, and generate your QR code.
+
+However, I want to clearly inform you that you must enter the correct details to generate an accurate QR code. If you enter incorrect details, you will be entirely responsible for them. BillsFreind.in is not responsible for any payments or money transactions. It only provides you with a QR code based on the UPI details you enter.`,
   ],
   [
     "Your data and backups",
-    "Documents and business details are stored only in your own browser. They can be lost if you clear your browser data, switch devices or use private browsing, and we cannot recover them. Download a PDF or export JSON for anything you need to keep.",
+    `Most importantly, this website offers a high level of security. There is no login or sign-up required, and your data is not stored in any database. When you generate bills, you have a save option, but those bills are saved only on your local device. If you open the same website on another device, your saved items and bills will not appear there because they are stored only in your local storage.
+
+Since there is no login or sign-up option, you don't need to waste your time creating an account. You can quickly generate bills and download them in PDF format whenever you want.`,
   ],
   [
     "Advertising and external links",
-    "This website may show advertising from third parties, such as Google AdSense. Ads and links to external sites, including our Instagram and YouTube pages, are provided for convenience and are not an endorsement. We do not control third-party content or their privacy practices.",
+    "This website sometimes displays short advertisements through Google AdSense. However, it does not host any third-party advertising links for promotional purposes. The website may also contain external links to our social media platforms, such as YouTube and other social media handles.",
   ],
   [
     "Limitation of liability",
-    "BillsFriend is provided “as is” and “as available”, free of charge. To the fullest extent permitted by law, we are not liable for any loss, penalty, tax demand, lost credit, lost data or other damage arising from the use of — or inability to use — this website, its tools or its content.",
+    "BillsFreind is provided “as is” and “as available”, free of charge. To the fullest extent permitted by law, we are not liable for any loss, penalty, tax demand, lost credit, lost data or other damage arising from the use of — or inability to use — this website, its tools or its content.",
   ],
 ];
 
@@ -54,7 +62,7 @@ export default function Disclaimer() {
       <p className="mt-3 text-sm text-muted-foreground">Last updated: 13 October 2026</p>
 
       <div className="mt-6 rounded-2xl border border-primary/25 bg-accent/60 p-5 text-sm leading-relaxed text-accent-foreground">
-        <strong>In short:</strong> BillsFriend helps you format bills and invoices. It is not a substitute for professional
+        <strong>In short:</strong> BillsFreind helps you format bills and invoices. It is not a substitute for professional
         tax or legal advice, and you are responsible for checking every document before you use it.
       </div>
 
@@ -62,7 +70,9 @@ export default function Disclaimer() {
         {SECTIONS.map(([h, p]) => (
           <section key={h}>
             <h2 className="font-heading text-lg font-bold text-foreground">{h}</h2>
-            <p className="mt-2">{p}</p>
+            {p.split(/\n\s*\n/).map((para, i) => (
+              <p key={i} className="mt-2">{para.trim()}</p>
+            ))}
           </section>
         ))}
         <p>

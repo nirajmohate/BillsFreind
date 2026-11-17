@@ -16,7 +16,7 @@ export function SiteFooter() {
             <Link to="/" className="flex items-center gap-2.5" data-testid="footer-brand">
               <BrandMark />
               <span className="font-heading text-lg font-bold tracking-tight">
-                Bills<span className="text-primary">Friend</span>
+                Bills<span className="text-primary">Freind</span>
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
@@ -51,7 +51,7 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-border/70 pt-6 sm:flex-row sm:items-center">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} BillsFriend. Free forever — built for small business, freelancers and HR teams.
+            © {new Date().getFullYear()} BillsFreind. Free forever — built for small business, freelancers and HR teams.
           </p>
           <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
             <Link to="/about" className="hover:text-foreground">About</Link>

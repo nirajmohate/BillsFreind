@@ -134,7 +134,7 @@ export function SiteHeader() {
         <Link to="/" className="flex items-center gap-2.5" data-testid="navbar-brand">
           <BrandMark />
           <span className="font-heading text-lg font-bold tracking-tight">
-            Bills<span className="text-primary">Friend</span>
+            Bills<span className="text-primary">Freind</span>
           </span>
         </Link>
 
